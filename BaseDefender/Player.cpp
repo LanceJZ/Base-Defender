@@ -10,7 +10,7 @@ void Player::Update(sf::Time *delta)
 	for (size_t shot = 0; shot < mShots.size(); shot++)
 	{
 		if (mShots.at(shot)->Active())
-			mShots.at(shot)->Update(delta);
+			mShots.at(shot)->Update(delta); //TODO: Shots not always have working collision.
 	}
 
 	if (mThrustOn)
@@ -192,8 +192,7 @@ void Player::SetThrust(void)
 	sf::Vector2f atPosition = *Entity::GetPosition();
 
 	if (mFlipped)
-	{
-		float sposX = Entity::GetSprite()->getTextureRect().width;// -20.0f;
+	{		
 		position.x = atPosition.x - Entity::GetSprite()->getTextureRect().width - 20.0f;
 	}
 	else

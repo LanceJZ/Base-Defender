@@ -17,33 +17,18 @@ void EnemyRandomMover::Update(sf::Time *delta)
 
 void EnemyRandomMover::Initialize(sf::Texture *texture, sf::Vector2u windowSize, sf::Vector2f worldSize)
 {
+	Entity::Initialize(texture, windowSize, worldSize);
 	mMoveSpeed = 2.5f;
 	mMoveTimer = 10.5f;
 	mNextMoveTime = MoveTime();
-	Entity::Initialize(texture, windowSize, worldSize);
 }
 
 void EnemyRandomMover::Setup(sf::Vector2f position, sf::Vector2f velocity)
 {
 	Entity::SetPosition(&position);
-	m_Velocity = velocity;
-	m_Active = true;	
+	Entity::m_Velocity = velocity;
+	Entity::m_Active = true;
 }
-
-//sf::Vector2f *EnemyRandomMover::GetPosition(void)
-//{
-//	return Entity::GetPosition();
-//}
-//
-//sf::FloatRect EnemyRandomMover::GetCollusion(void)
-//{
-//	return m_Collusion;
-//}
-//
-//bool EnemyRandomMover::HitbyPlayerShot(void)
-//{
-//	return Enemy::HitbyPlayerShot();
-//}
 
 EnemyRandomMover::EnemyRandomMover(void)
 {

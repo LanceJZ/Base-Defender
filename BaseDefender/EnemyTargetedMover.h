@@ -7,10 +7,6 @@ class EnemyTargetedMover :
 public:
 	EnemyTargetedMover(void);
 
-	//sf::Vector2f *GetPosition(void);
-	//sf::FloatRect GetCollusion(void); //collusion
-	//bool HitbyPlayerShot(void);
-
 protected:
 	void Initialize(sf::Texture *texture, sf::Vector2u windowSize, sf::Vector2f worldSize);
 	void Update(sf::Time *delta);

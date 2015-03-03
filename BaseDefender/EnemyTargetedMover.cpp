@@ -5,8 +5,8 @@ void EnemyTargetedMover::Update(sf::Time *delta)
 	if (m_Active)
 	{
 		Entity::Update(delta);
-		CheckVelocity();
-		HitbyPlayerShot();
+		Enemy::CheckVelocity();
+		Enemy::HitbyPlayerShot();
 	}
 }
 
@@ -21,25 +21,10 @@ void EnemyTargetedMover::Initialize(sf::Texture *texture, sf::Vector2u windowSiz
 	Entity::Initialize(texture, windowSize, worldSize);
 }
 
-//sf::Vector2f *EnemyTargetedMover::GetPosition(void)
-//{
-//	return Entity::GetPosition();
-//}
-
-//sf::FloatRect EnemyTargetedMover::GetCollusion(void)
-//{
-//	return m_Collusion;
-//}
-
-//bool EnemyTargetedMover::HitbyPlayerShot(void)
-//{
-//	return Enemy::HitbyPlayerShot();
-//}
-
 void EnemyTargetedMover::Setup(sf::Vector2f position, sf::Vector2f velocity)
 {
 	Entity::SetPosition(&position);
-	m_Velocity = velocity;
+	Entity::m_Velocity = velocity;
 	Entity::m_Active = true;
 }
 

@@ -8,9 +8,6 @@ class EnemyRandomMover :
 public:
 	EnemyRandomMover(void);
 
-	//sf::Vector2f *GetPosition(void);
-	//sf::FloatRect GetCollusion(void); //collusion
-	//bool HitbyPlayerShot(void);
 	void Setup(sf::Vector2f position, sf::Vector2f velocity);
 
 protected:
