@@ -4,13 +4,13 @@ void EnemyShot::Update(sf::Time *delta)
 {
 	Entity::Update(delta);
 
-	if (m_Active)
+	if (Entity::m_Active)
 	{
 		ShotTimer();
 
-		if (HitPlayer())
+		if (Enemy::HitPlayer())
 		{
-			m_Active = false;
+			Entity::m_Active = false;
 			pPlayer->PlayerHit();
 		}
 	}
@@ -35,13 +35,13 @@ void EnemyShot::Initialize(sf::Texture *texture, sf::Vector2u windowSize, sf::Ve
 
 void EnemyShot::PlayerPointer(std::shared_ptr<Player> playerSP)
 {
-	pPlayer = playerSP;
+	Enemy::pPlayer = playerSP;
 }
 
 void EnemyShot::FireShot(sf::Vector2f position)
 {
 	Entity::SetPosition(&position);
-	m_Active = true;	
+	Entity::m_Active = true;
 	mTimerLife = Common::ResetTimer(mTimerLife, mTimerLife * 1.5f, mTimerLife /2);
 }
 
@@ -52,13 +52,5 @@ EnemyShot::EnemyShot(void)
 void EnemyShot::ShotTimer(void)
 {
 	if (mTimerLife < mClock.getElapsedTime().asSeconds())
-		m_Active = false;
-}
-
-bool EnemyShot::HitPlayer(void)
-{
-	if (GetCollision()->intersects(*pPlayer->GetCollision()))
-		return true;
-
-	return false;
+		Entity::m_Active = false;
 }

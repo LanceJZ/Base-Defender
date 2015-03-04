@@ -5,7 +5,7 @@ void Background::Update(void)
 
 }
 
-void Background::DrawBackground(sf::RenderWindow *Window)
+void Background::Draw(sf::RenderWindow *Window)
 {
 	Window->draw(*mStarsBackground);
 	Window->draw(mLine);

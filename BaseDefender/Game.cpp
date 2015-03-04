@@ -9,7 +9,7 @@ std::unique_ptr<Background> pBackground(new Background);
 std::unique_ptr<Overlay> pOverlay(new Overlay);
 std::unique_ptr<EnemySpawner> pSpawner(new EnemySpawner);
 
-Game::Game() : mWindow(sf::VideoMode(1280, 720), "Base Defender SFML version A00001.1", sf::Style::Close)
+Game::Game() : mWindow(sf::VideoMode(1280, 720), "Base Defender SFML version A00001.12", sf::Style::Close)
 , mWorldView(mWindow.getDefaultView())
 , mWorldOthersideView(mWindow.getDefaultView())
 {	
@@ -40,12 +40,13 @@ void Game::Initialize(void)
 	mTextures.load(Textures::AttackerShot, "Media/Textures/AttackerShot.PNG");
 	mTextures.load(Textures::AttackerBomber, "Media/Textures/AttackerBomber.PNG");
 	mTextures.load(Textures::AttackerFC, "Media/Textures/AttackerFC.PNG");
-	mTextures.load(Textures::Bomb, "Media/Textures/Bomb.PNG");
-	mTextures.load(Textures::BombExplosion, "Media/Textures/TempBombExplosion.PNG");
 	mTextures.load(Textures::Bomber, "Media/Textures/Bomber.PNG");
 	mTextures.load(Textures::Mine, "Media/Textures/Mine.PNG");
 	mTextures.load(Textures::Pod, "Media/Textures/Pod.PNG");
 	mTextures.load(Textures::Swarmer, "Media/Textures/Swarmer.PNG");
+	mTextures.load(Textures::EnemyExplosion, "Media/Textures/TempEnemyExplosion.PNG");
+	mTextures.load(Textures::Bomb, "Media/Textures/Bomb.PNG");
+	mTextures.load(Textures::BombExplosion, "Media/Textures/TempBombExplosion.PNG");
 
 	pBackground->Initialize(&mTextures.get(Textures::Background), mWindow.getSize(), mWorldSize);
 	pBackground->InitializeLine(&mTextures.get(Textures::BackgroundLine));
@@ -57,8 +58,8 @@ void Game::Initialize(void)
 	pSpawner->PlayerPointer(pPlayer);
 	pSpawner->CityPointer(pCities);
 	pSpawner->Initialize(&mTextures.get(Textures::Attacker), &mTextures.get(Textures::AttackerShot), &mTextures.get(Textures::AttackerBomber),
-		&mTextures.get(Textures::AttackerFC), &mTextures.get(Textures::Bomb),	&mTextures.get(Textures::BombExplosion),
-		&mTextures.get(Textures::Bomber), &mTextures.get(Textures::Mine), &mTextures.get(Textures::Pod), &mTextures.get(Textures::Swarmer),
+		&mTextures.get(Textures::AttackerFC), &mTextures.get(Textures::Bomb), &mTextures.get(Textures::BombExplosion), &mTextures.get(Textures::Bomber),
+		&mTextures.get(Textures::Mine), &mTextures.get(Textures::Pod), &mTextures.get(Textures::Swarmer), &mTextures.get(Textures::EnemyExplosion),
 		mWindow.getSize(), mWorldSize);
 
 	mPlayerCenterX = mTextures.get(Textures::Player).getSize().x / 2.f;
@@ -142,7 +143,7 @@ void Game::Draw(void)
 	{
 		mWindow.setView(mWorldOthersideView);
 		// draw other side background here.
-		pBackground->DrawBackground(&mWindow);
+		pBackground->Draw(&mWindow);
 		pCities->Draw(&mWindow);
 
 		// Enemy Draw here
@@ -154,7 +155,7 @@ void Game::Draw(void)
 
 	mWindow.setView(mWorldView);
 	// Background elements here too
-	pBackground->DrawBackground(&mWindow);
+	pBackground->Draw(&mWindow);
 	pCities->Draw(&mWindow);
 
 	if (!mSeeLeftSide || !mSeeRightSide)

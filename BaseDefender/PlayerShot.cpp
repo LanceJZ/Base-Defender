@@ -4,10 +4,12 @@ void PlayerShot::Update(sf::Time *Delta)
 {
 	Entity::Update(Delta);
 
-	if (m_Active)
+	Entity::SetPosition(&sf::Vector2f(*Common::CheckForEdge(&Entity::GetPosition()->x, &Entity::m_WorldSize.x), Entity::GetPosition()->y));
+
+	if (Entity::m_Active)
 	{
 		if (ShotOutOfTime())
-			m_Active = false;
+			Entity::m_Active = false;
 	}
 }
 
@@ -25,24 +27,24 @@ void PlayerShot::Initialize(sf::Texture *Texture, sf::Vector2u WindowSize, sf::V
 void PlayerShot::Fire(sf::Vector2f position, sf::Vector2f velocity)
 {
 	Entity::SetPosition(&position);
-	m_Velocity = velocity;
-	m_Active = true;
+	Entity::m_Velocity = velocity;
+	Entity::m_Active = true;
 	mShotTimer = ShotTime();
 }
 
-sf::Vector2f *PlayerShot::Position(void)
+sf::Vector2f *PlayerShot::GetPosition(void)
 {
 	return Entity::GetPosition();
 }
 
-bool PlayerShot::Active(void)
+bool PlayerShot::GetActive(void)
 {
-	return m_Active;
+	return Entity::m_Active;
 }
 
 void PlayerShot::Hit(void)
 {
-	m_Active = false;
+	Entity::m_Active = false;
 }
 
 PlayerShot::PlayerShot()

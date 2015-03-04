@@ -19,9 +19,6 @@ private:
 	float mTimerAmount;
 	float mTimerLife;
 
-	bool HitPlayer(void);
-	float ResetTimer(void);
-
 	void MineTimer(void);
 
 };

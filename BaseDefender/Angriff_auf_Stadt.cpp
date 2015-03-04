@@ -14,7 +14,7 @@ void Angriff_auf_Stadt::Update(sf::Time *delta)
 		}
 	}
 
-	EnemyRandomShooter::SetActiveShot(m_Active);
+	EnemyRandomShooter::SetActiveShot(Entity::m_Active);
 	EnemyRandomShooter::Update(delta, Entity::GetPosition());
 	EnemyTargetedMover::Update(delta);
 	mBomb->Update(delta);
@@ -24,21 +24,23 @@ void Angriff_auf_Stadt::Draw(sf::RenderWindow *window)
 {
 	mBomb->Draw(window);
 	EnemyRandomShooter::Draw(window);
-	Entity::Draw(window);
+	Enemy::Draw(window);
 }
 
 void Angriff_auf_Stadt::DrawOtherSide(sf::RenderWindow *window)
 {
 	mBomb->DrawOtherSide(window);
 	EnemyRandomShooter::DrawOtherSide(window);
-	Entity::DrawOtherSide(window);
+	Enemy::DrawOtherSide(window);
 }
 
-void Angriff_auf_Stadt::Initialize(sf::Texture *texture, sf::Texture *shotTexture, sf::Texture *bombTexture, sf::Texture *bombExplosion, sf::Vector2u windowSize, sf::Vector2f worldSize)
+void Angriff_auf_Stadt::Initialize(sf::Texture *texture, sf::Texture *shotTexture, sf::Texture *bombTexture, sf::Texture *bombExplosion, sf::Texture *shipExplosion,
+	sf::Vector2u windowSize, sf::Vector2f worldSize)
 {
 	mBombTexture = bombTexture;
 	EnemyRandomShooter::Initialize(shotTexture, sf::Vector2i(texture->getSize().x / 2, texture->getSize().y / 2), windowSize, worldSize);
 	EnemyTargetedMover::Initialize(texture, windowSize, worldSize);
+	Enemy::Initialize(shipExplosion);
 	mBomb->Initialize(bombTexture, bombExplosion, windowSize, worldSize);
 	EnemyTargetedMover::mMoveSpeed = 1.666f;
 	EnemyTargetedMover::mMoveTimer = 6.666f;
@@ -80,9 +82,5 @@ Angriff_auf_Stadt::Angriff_auf_Stadt(void)
 
 void Angriff_auf_Stadt::DropBomb(void)
 {
-	sf::Vector2f position = *Entity::GetPosition();
-	position.y = position.y + Enemy::GetCollision()->height;
-	position.x = position.x + Enemy::GetCollision()->width / 2;
-
-	mBomb->DropBomb(position);	
+	mBomb->DropBomb(sf::Vector2f(Entity::GetPosition()->x + Entity::GetCollision()->width / 2, Entity::GetPosition()->y + Entity::GetCollision()->height));
 }

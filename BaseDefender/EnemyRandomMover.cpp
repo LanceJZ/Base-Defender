@@ -2,7 +2,7 @@
 
 void EnemyRandomMover::Update(sf::Time *delta)
 {
-	Entity::Update(delta);
+	Enemy::Update(delta);
 
 	if (m_Active)
 	{

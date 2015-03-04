@@ -34,10 +34,11 @@ namespace Textures
 		AttackerFC,
 		Bomber,
 		Mine,
-		Bomb,
-		BombExplosion,
 		Pod,
 		Swarmer,
+		EnemyExplosion,
+		Bomb,
+		BombExplosion,
 	};
 }
 

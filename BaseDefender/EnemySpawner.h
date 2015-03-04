@@ -16,7 +16,7 @@ public:
 	void DrawOtherSide(sf::RenderWindow *window);
 	void Initialize(sf::Texture *angreiferTexture, sf::Texture *angreiferShotTexture, sf::Texture *stadt_AngreiferTexture,
 		sf::Texture *angreiferTextureFC, sf::Texture *bombTexture, sf::Texture *bombExplosion, sf::Texture *minenlegerTexture,
-		sf::Texture *mineTexture,	sf::Texture *unterTexture, sf::Texture *schwärmeTexture,
+		sf::Texture *mineTexture, sf::Texture *unterTexture, sf::Texture *schwärmeTexture, sf::Texture *enemyExplosion,
 		sf::Vector2u windowSize, sf::Vector2f worldBounds);
 	void PlayerPointer(std::shared_ptr<Player> playerSP);
 	void CityPointer(std::shared_ptr<Cities> citySP);
@@ -31,6 +31,7 @@ private:
 	sf::Texture *mUnterTexture;
 	sf::Texture *mSchwärmeTexture;
 	sf::Texture *mAngreiferShotTexture;
+	sf::Texture *mEnemyExplosion;
 
 	std::vector<std::unique_ptr<Minenleger>> mMinenlegers;
 	std::vector<std::unique_ptr<Unter>> mUnters;

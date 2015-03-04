@@ -3,13 +3,15 @@
 void Player::Update(sf::Time *delta)
 {
 	Entity::Update(delta);
-	sf::Vector2f pos = *GetPosition();
+	sf::Vector2f pos = *Entity::GetPosition();
+
+	Entity::SetPosition(&sf::Vector2f(*Common::CheckForEdge(&Entity::GetPosition()->x, &Entity::m_WorldSize.x), Entity::GetPosition()->y));
 
 	CheckVelocity();
 
 	for (size_t shot = 0; shot < mShots.size(); shot++)
 	{
-		if (mShots.at(shot)->Active())
+		if (mShots.at(shot)->GetActive())
 			mShots.at(shot)->Update(delta); //TODO: Shots not always have working collision.
 	}
 
@@ -40,7 +42,7 @@ void Player::Draw(sf::RenderWindow *window)
 
 	for (size_t shot = 0; shot < mShots.size(); shot++)
 	{
-		if (mShots.at(shot)->Active())
+		if (mShots.at(shot)->GetActive())
 		{
 			mShots.at(shot)->Draw(window);
 		}
@@ -149,17 +151,17 @@ size_t Player::ShotCount(void)
 
 bool Player::ShotActive(size_t shot)
 {
-	return mShots.at(shot)->Active();
+	return mShots.at(shot)->GetActive();
 }
 
 sf::Vector2f *Player::ShotPosition(size_t shot)
 {
-	return mShots.at(shot)->Position();
+	return mShots.at(shot)->GetPosition();
 }
 
-sf::FloatRect Player::ShotCollision(size_t shot)
+sf::FloatRect *Player::ShotCollision(size_t shot)
 {
-	return *mShots.at(shot)->GetCollision();
+	return mShots.at(shot)->GetCollision();
 }
 
 void Player::ShotHit(size_t shot)
@@ -227,7 +229,7 @@ void Player::FireShot(void)
 
 	for (size_t shot = 0; shot < mShots.size(); shot++)
 	{
-		if (!mShots.at(shot)->Active())
+		if (!mShots.at(shot)->GetActive())
 		{			
 			spawnShot = false;
 			shotNumber = shot;

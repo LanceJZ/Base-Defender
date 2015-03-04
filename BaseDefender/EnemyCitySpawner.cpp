@@ -76,7 +76,7 @@ void EnemyCitySpawner::DrawOtherSide(sf::RenderWindow *window)
 }
 
 void EnemyCitySpawner::Initialize(sf::Texture *angreiferTexture, sf::Texture *angreiferShotTexture, sf::Texture *stadt_AngreiferTexture,
-	sf::Texture *angreiferFCTexture, sf::Texture *bombTexture, sf::Texture *bombExplosion,
+	sf::Texture *angreiferFCTexture, sf::Texture *bombTexture, sf::Texture *bombExplosion, sf::Texture *enemyExplosion,
 	sf::Vector2u windowSize, sf::Vector2f worldBounds)
 {
 	mWindowSize = windowSize;
@@ -87,6 +87,7 @@ void EnemyCitySpawner::Initialize(sf::Texture *angreiferTexture, sf::Texture *an
 	mAngreiferFCTexture = angreiferFCTexture;
 	mBombTexture = bombTexture;
 	mBombExplosion = bombExplosion;
+	mEnemyExplosion = enemyExplosion;
 
 	mNumberOfAngreifers = 6;
 	mAngreiferSpawnTimerAmount = 230;
@@ -153,6 +154,9 @@ void EnemyCitySpawner::SendAngreiferToCity(void)
 		if (mAngreifers.at(ship)->GetActive())
 			liveShips++;
 	}
+
+	if (liveShips < 2)
+		return;
 
 	int sendShip = (rand() % liveShips);
 
@@ -232,7 +236,7 @@ void EnemyCitySpawner::SpawnAngriff_auf_Stadt(sf::Vector2f postion, sf::Vector2f
 	{
 		mAngriff_auf_Stadts.push_back(std::unique_ptr<Angriff_auf_Stadt>(new Angriff_auf_Stadt()));
 		spawnShip = mAngriff_auf_Stadts.size() - 1;
-		mAngriff_auf_Stadts.at(spawnShip)->Initialize(mStadt_AngreiferTexture, mAngreiferShotTexture, mBombTexture, mBombExplosion, mWindowSize, mWorldSize);
+		mAngriff_auf_Stadts.at(spawnShip)->Initialize(mStadt_AngreiferTexture, mAngreiferShotTexture, mBombTexture, mBombExplosion, mEnemyExplosion, mWindowSize, mWorldSize);
 		mAngriff_auf_Stadts.at(spawnShip)->PlayerPointer(pPlayer);
 		mAngriff_auf_Stadts.at(spawnShip)->CityPointer(pCities);
 	}

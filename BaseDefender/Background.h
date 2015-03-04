@@ -8,7 +8,7 @@ public:
 	Background(void);
 
 	void Update(void);
-	void DrawBackground(sf::RenderWindow *Window);
+	void Draw(sf::RenderWindow *Window);
 	void Initialize(sf::Texture *StarTexture, sf::Vector2u WindowSize, sf::Vector2f WorldBounds);
 	void InitializeLine(sf::Texture *LineTexture);
 

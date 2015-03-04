@@ -19,7 +19,7 @@ public:
 	bool ShotActive(size_t shot);
 	size_t ShotCount(void);
 	sf::Vector2f *ShotPosition(size_t shot);
-	sf::FloatRect ShotCollision(size_t shot);
+	sf::FloatRect *ShotCollision(size_t shot);
 
 private:
 	std::vector<std::unique_ptr<PlayerShot>> mShots;

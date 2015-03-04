@@ -4,33 +4,27 @@ void EnemyMine::Update(sf::Time *delta)
 {
 	Entity::Update(delta);
 
-	if (m_Active)
+	if (Entity::m_Active)
 	{
 		MineTimer();
-		HitbyPlayerShot();
+		Enemy::HitbyPlayerShot();
 
-		if (HitPlayer())
+		if (Enemy::HitPlayer())
 		{
-			m_Active = false;
-			pPlayer->PlayerHit();
+			Entity::m_Active = false;
+			Enemy::pPlayer->PlayerHit();
 		}
 	}
 }
 
 void EnemyMine::Draw(sf::RenderWindow *window)
 {
-	if (m_Active)
-	{
 		Entity::Draw(window);
-	}
 }
 
 void EnemyMine::DrawOtherSide(sf::RenderWindow *window)
 {
-	if (m_Active)
-	{
 		Entity::DrawOtherSide(window);
-	}
 }
 
 void EnemyMine::Initialize(sf::Texture *texture, sf::Vector2u windowSize, sf::Vector2f worldSize)
@@ -42,35 +36,22 @@ void EnemyMine::Initialize(sf::Texture *texture, sf::Vector2u windowSize, sf::Ve
 
 void EnemyMine::PlayerPointer(std::shared_ptr<Player> playerSP)
 {
-	pPlayer = playerSP;
+	Enemy::pPlayer = playerSP;
 }
 
 void EnemyMine::LayMine(sf::Vector2f position)
 {
 	Entity::SetPosition(&position);
-	m_Active = true;	
-	mTimerLife = ResetTimer();
+	Entity::m_Active = true;
+	mTimerLife = Common::ResetTimer(mTimerAmount, mTimerAmount * 2, mTimerAmount / 4);
 }
 
 EnemyMine::EnemyMine(void)
 {
 }
 
-bool EnemyMine::HitPlayer(void)
-{
-	if (GetCollision()->intersects(*pPlayer->GetCollision()))
-		return true;
-
-	return false;
-}
-
-float EnemyMine::ResetTimer(void)
-{
-	return mTimerAmount + mClock.getElapsedTime().asSeconds();
-}
-
 void EnemyMine::MineTimer(void)
 {
 	if (mTimerLife < mClock.getElapsedTime().asSeconds())
-		m_Active = false;
+		Entity::m_Active = false;
 }

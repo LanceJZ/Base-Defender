@@ -33,6 +33,7 @@ protected:
 	void Update(sf::Time *delta);
 	void Draw(sf::RenderWindow *window);
 	void DrawOtherSide(sf::RenderWindow *window);
+	void UpdateCollusionPosition(void);
 
 public:
 	Entity(void);

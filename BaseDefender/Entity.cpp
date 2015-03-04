@@ -11,9 +11,14 @@ void Entity::Update(sf::Time *delta)
 		m_Rotation.Velocity += m_Rotation.Acceleration;
 		m_Rotation.Amount += (m_Rotation.Velocity * delta->asSeconds());
 		m_Sprite->setPosition(*m_Position);
-		m_Collusion->left = m_Sprite->getPosition().x;
-		m_Collusion->top = m_Sprite->getPosition().y;
+		UpdateCollusionPosition();
 	}
+}
+
+void Entity::UpdateCollusionPosition(void)
+{
+	m_Collusion->left = m_Sprite->getPosition().x;
+	m_Collusion->top = m_Sprite->getPosition().y;
 }
 
 void Entity::Draw(sf::RenderWindow *window)

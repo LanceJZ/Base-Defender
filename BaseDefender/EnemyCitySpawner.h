@@ -16,7 +16,7 @@ protected:
 	void Draw(sf::RenderWindow *window);
 	void DrawOtherSide(sf::RenderWindow *window);
 	void Initialize(sf::Texture *angreiferTexture, sf::Texture *angreiferShotTexture, sf::Texture *stadt_AngreiferTexture, sf::Texture *angreiferFCTexture,
-		sf::Texture *bombTexture, sf::Texture *bombExplosion, sf::Vector2u windowSize, sf::Vector2f worldBounds);
+		sf::Texture *bombTexture, sf::Texture *bombExplosion, sf::Texture *enemyExplosion, sf::Vector2u windowSize, sf::Vector2f worldBounds);
 	void PlayerPointer(std::shared_ptr<Player> playerSP);
 	void CityPointer(std::shared_ptr<Cities> citySP);
 	void SpawnAngreifers(void);
@@ -36,6 +36,7 @@ private:
 	sf::Texture *mAngreiferFCTexture;
 	sf::Texture *mBombTexture;
 	sf::Texture *mBombExplosion;
+	sf::Texture *mEnemyExplosion;
 
 	int mNumberOfAngreifers;
 	float mAngreiferSpawnTimer;

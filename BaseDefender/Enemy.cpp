@@ -1,15 +1,67 @@
 #include "Enemy.h"
 
+void Enemy::Update(sf::Time *delta)
+{
+	Entity::Update(delta);
+
+	Entity::SetPosition(&sf::Vector2f(*Common::CheckForEdge(&Entity::GetPosition()->x, &Entity::m_WorldSize.x), Entity::GetPosition()->y));
+
+	if (mExploding)
+	{
+		if (mTimerExplode < mClock.getElapsedTime().asSeconds())
+			mExploding = false;
+	}
+
+	if (Entity::m_Active)
+	{
+		if (pPlayer != NULL)
+		{
+			if (HitbyPlayerShot())
+				Explode(*Entity::GetPosition(), 1.0f);
+
+			if (HitPlayer())
+				Explode(*Entity::GetPosition(), 1.0f);
+		}
+	}
+}
+
+void Enemy::Draw(sf::RenderWindow *window)
+{
+	Entity::Draw(window);
+
+	if (mExploding)
+		window->draw(*mExplosion);
+}
+
+void Enemy::DrawOtherSide(sf::RenderWindow *window)
+{
+	Entity::DrawOtherSide(window);
+
+	if (mExploding)
+	{
+		if (mExplosion->getPosition().x < 1.0f || mExplosion->getPosition().x > m_WorldSize.x - Entity::GetCollision()->width)
+		{
+			mExplosion->setPosition(mExplosion->getPosition().x - m_WorldSize.x, mExplosion->getPosition().y);
+			window->draw(*mExplosion);
+		}
+	}
+}
+
+void Enemy::Initialize(sf::Texture *explosionTexture)
+{
+	mExplosion->setTexture(*explosionTexture);
+}
+
 bool Enemy::HitbyPlayerShot(void)
 {
 	for (size_t shot = 0; shot < pPlayer->ShotCount(); shot++)
 	{
 		if (pPlayer->ShotActive(shot))
 		{
-			if (Entity::GetCollision()->intersects(pPlayer->ShotCollision(shot)))
+			if (Entity::GetCollision()->intersects(*pPlayer->ShotCollision(shot)))
 			{
 				pPlayer->ShotHit(shot);
-				m_Active = false;
+				Entity::m_Active = false;
 				return true;
 			}
 		}
@@ -18,48 +70,69 @@ bool Enemy::HitbyPlayerShot(void)
 	return false;
 }
 
+bool Enemy::HitPlayer(void)
+{
+	if (Entity::GetCollision()->intersects(*pPlayer->GetCollision()))
+		return true;
+
+	return false;
+}
+
 Enemy::Enemy()
 {
 	mMaxVolicityX = 33.666f;
 	mMaxVolicityY = 6.666f;
+	mExploding = false;
+	mExplosion = new sf::Sprite();
 }
 
 void Enemy::CheckVelocity(void)
 {
-	sf::Vector2f position = *Entity::GetPosition();
-
-	if (position.y > m_WindowSize.y - 160 || position.y < 60)
+	if (Entity::GetPosition()->y > m_WindowSize.y - 160 || Entity::GetPosition()->y < 60)
 	{
 		m_Velocity.y = 0;
 
-		if (position.y < 60)
-			m_Acceleration.y = 5;
+		if (Entity::GetPosition()->y < 60)
+			Entity::m_Acceleration.y = 5;
 
-		if (position.y > m_WindowSize.y - 160)
-			m_Acceleration.y = -5;
+		if (Entity::GetPosition()->y > Entity::m_WindowSize.y - 160)
+			Entity::m_Acceleration.y = -5;
 	}
 
 	if (GetVelocity()->x > mMaxVolicityX)
 	{
-		SetAcceleration(&sf::Vector2f(0.0f, m_Acceleration.y));
-		SetVelocity(&sf::Vector2f(mMaxVolicityX, m_Velocity.y));
+		SetAcceleration(&sf::Vector2f(0.0f, Entity::m_Acceleration.y));
+		SetVelocity(&sf::Vector2f(mMaxVolicityX, Entity::m_Velocity.y));
 	}
 
 	if (GetVelocity()->x < -mMaxVolicityX)
 	{
-		SetAcceleration(&sf::Vector2f(0.0f, m_Acceleration.y));
-		SetVelocity(&sf::Vector2f(-mMaxVolicityX, m_Velocity.y));
+		SetAcceleration(&sf::Vector2f(0.0f, Entity::m_Acceleration.y));
+		SetVelocity(&sf::Vector2f(-mMaxVolicityX, Entity::m_Velocity.y));
 	}
 
 	if (GetVelocity()->y > mMaxVolicityY)
 	{
-		SetAcceleration(&sf::Vector2f(m_Acceleration.x, 0.0f));
-		SetVelocity(&sf::Vector2f(m_Velocity.x, mMaxVolicityY));
+		SetAcceleration(&sf::Vector2f(Entity::m_Acceleration.x, 0.0f));
+		SetVelocity(&sf::Vector2f(Entity::m_Velocity.x, mMaxVolicityY));
 	}
 
 	if (GetVelocity()->y < -mMaxVolicityY)
 	{
-		SetAcceleration(&sf::Vector2f(m_Acceleration.x, 0.0f));
-		SetVelocity(&sf::Vector2f(m_Velocity.x, -mMaxVolicityY));
+		SetAcceleration(&sf::Vector2f(Entity::m_Acceleration.x, 0.0f));
+		SetVelocity(&sf::Vector2f(Entity::m_Velocity.x, -mMaxVolicityY));
+	}
+}
+
+void Enemy::Explode(sf::Vector2f position, float duration)
+{
+	if (mExplosion != NULL)
+	{
+		//Puts center of explosion over position.
+		position.y = position.y - mExplosion->getTextureRect().height / 2;
+		position.x = position.x - mExplosion->getTextureRect().width / 2;
+		mExplosion->setPosition(position);
+		mExploding = true;
+		mTimerExplode = ResetTimer(duration, duration / 1.25f, duration / 4);
 	}
 }

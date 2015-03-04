@@ -1,9 +1,9 @@
 #ifndef EnemyShot_H
 #define EnemyShot_H
-#include "Player.h"
+#include "Enemy.h"
 
 class EnemyShot :
-	public Entity
+	public Enemy
 {
 public:
 	EnemyShot(void);
@@ -16,12 +16,8 @@ public:
 	void FireShot(sf::Vector2f position);
 
 private:
-	std::shared_ptr<Player> pPlayer;
-
 	float mTimerAmount;
 	float mTimerLife;
-
-	bool HitPlayer(void);
 
 	void ShotTimer(void);
 };

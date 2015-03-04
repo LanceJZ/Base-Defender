@@ -39,13 +39,12 @@ float EnemyTargetedMover::MoveTime(void)
 
 void EnemyTargetedMover::ChaseTarget(sf::Vector2f *target)
 {
-	sf::Vector2f thePosition = *Entity::GetPosition();
 	float magnitude = float((rand() % int(mMoveSpeed)) + mMoveSpeed / 6.666f);
 	float angle = Entity::AngleToTarget(*Entity::GetPosition(), *target);
 
 	m_Acceleration.y = std::sinf(angle) * magnitude;
 
-	if (thePosition.x - target->x > m_WorldSize.x * 0.5f || target->x - thePosition.x > m_WorldSize.x * 0.5f)
+	if (Entity::GetPosition()->x - target->x > m_WorldSize.x * 0.5f || target->x - Entity::GetPosition()->x > m_WorldSize.x * 0.5f)
 		m_Acceleration.x = (std::cosf(angle) * magnitude) * -1;
 	else
 		m_Acceleration.x = std::cosf(angle) * magnitude;

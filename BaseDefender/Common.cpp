@@ -1,5 +1,18 @@
 #include "Common.h"
 
+float *Common::CheckForEdge(float *positionX, float *edgeX)
+{
+	float *posX = positionX;
+
+	if (*positionX > *edgeX)
+		*posX = 0.0f;
+
+	if (*positionX < 0.0f)
+		*posX = *edgeX;
+
+	return posX;
+}
+
 sf::Vector2f Common::AngleToVector(float angle, float magnitude)
 {
 	sf::Vector2f vector;

@@ -8,9 +8,9 @@ class PlayerShot :
 public:
 	PlayerShot();
 
-	sf::Vector2f *Position(void);
+	sf::Vector2f *GetPosition(void);
 
-	bool Active(void);
+	bool GetActive(void);
 
 	void Draw(sf::RenderWindow *Window);
 	void Update(sf::Time *Delta);

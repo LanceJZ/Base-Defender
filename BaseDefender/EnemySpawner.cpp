@@ -63,7 +63,7 @@ void EnemySpawner::DrawOtherSide(sf::RenderWindow *window)
 
 void EnemySpawner::Initialize(sf::Texture *angreiferTexture, sf::Texture *angreiferShotTexture, sf::Texture *stadt_AngreiferTexture,
 	sf::Texture *angreiferTextureFC, sf::Texture *bombTexture, sf::Texture *bombExplosion, sf::Texture *minenlegerTexture,
-	sf::Texture *mineTexture, sf::Texture *unterTexture, sf::Texture *schwärmeTexture,
+	sf::Texture *mineTexture, sf::Texture *unterTexture, sf::Texture *schwärmeTexture, sf::Texture *enemyExplosion,
 	sf::Vector2u windowSize, sf::Vector2f worldBounds)
 {
 	mWindowSize = windowSize;
@@ -73,6 +73,7 @@ void EnemySpawner::Initialize(sf::Texture *angreiferTexture, sf::Texture *angrei
 	mUnterTexture = unterTexture;
 	mSchwärmeTexture = schwärmeTexture;
 	mAngreiferShotTexture = angreiferShotTexture;
+	mEnemyExplosion = enemyExplosion; //TODO:: Make them explode
 
 	mNumberOfMinenlegers = 3;
 	mNumberOfUnters = 3;
@@ -80,7 +81,7 @@ void EnemySpawner::Initialize(sf::Texture *angreiferTexture, sf::Texture *angrei
 	SpawnMinenlegers();
 	SpawnUnters();
 
-	EnemyCitySpawner::Initialize(angreiferTexture, angreiferShotTexture, stadt_AngreiferTexture, angreiferTextureFC, bombTexture, bombExplosion, windowSize, worldBounds);
+	EnemyCitySpawner::Initialize(angreiferTexture, angreiferShotTexture, stadt_AngreiferTexture, angreiferTextureFC, bombTexture, bombExplosion, enemyExplosion, windowSize, worldBounds);
 }
 
 void EnemySpawner::PlayerPointer(std::shared_ptr<Player> playerSP)

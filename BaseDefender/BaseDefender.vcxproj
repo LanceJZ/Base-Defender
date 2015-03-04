@@ -113,7 +113,6 @@
     <ClCompile Include="Minenleger.cpp" />
     <ClCompile Include="Overlay.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerInfo.cpp" />
     <ClCompile Include="PlayerShot.cpp" />
     <ClCompile Include="Schwärme.cpp" />
     <ClCompile Include="Source.cpp" />
@@ -145,7 +144,6 @@
     <ClInclude Include="Minenleger.h" />
     <ClInclude Include="Overlay.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerInfo.h" />
     <ClInclude Include="PlayerShot.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Schwärme.h" />

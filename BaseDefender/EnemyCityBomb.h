@@ -1,8 +1,8 @@
 #pragma once
-#include "Player.h"
+#include "Enemy.h"
 
 class EnemyCityBomb :
-	public Entity
+	public Enemy
 {
 public:
 	EnemyCityBomb(void);
@@ -17,16 +17,9 @@ public:
 
 private:
 	sf::FloatRect *mCityCollision;
-	sf::Sprite *mBombExplosion;
-	std::shared_ptr<Player> pPlayer;
 
 	float mExplodeTimerAmount;
-	float mExplodeTimer;
-	bool mExploding;
 
 	void HitTarget(void);
-	void Explode(void);
-	void ExplodeTimer(void);
-
 };
 
