@@ -11,27 +11,29 @@ void AngreiferFoundCity::Update(sf::Time *delta)
 			mNextTargetPosition = NextTarget();
 	}
 
-	EnemyRandomShooter::SetActiveShot(m_Active);
+	EnemyRandomShooter::SetActive(m_Active);
 	EnemyRandomShooter::Update(delta, Entity::GetPosition());
 	EnemyTargetedMover::Update(delta);
 }
 
 void AngreiferFoundCity::Draw(sf::RenderWindow *window)
 {
-	Entity::Draw(window);
+	Enemy::Draw(window);
 	EnemyRandomShooter::Draw(window);
 }
 
 void AngreiferFoundCity::DrawOtherSide(sf::RenderWindow *window)
 {
-	Entity::DrawOtherSide(window);
+	Enemy::DrawOtherSide(window);
 	EnemyRandomShooter::DrawOtherSide(window);
 }
 
-void AngreiferFoundCity::Initialize(sf::Texture *texture, sf::Texture *shotTexture, sf::Vector2u windowSize, sf::Vector2f worldSize)
+void AngreiferFoundCity::Initialize(sf::Texture *texture, sf::Texture *shotTexture, sf::Texture *shipExplosion,
+	sf::Vector2u windowSize, sf::Vector2f worldSize)
 {
 	EnemyRandomShooter::Initialize(shotTexture, sf::Vector2i(texture->getSize().x / 2, texture->getSize().y / 2), windowSize, worldSize);
 	EnemyTargetedMover::Initialize(texture, windowSize, worldSize);
+	Enemy::Initialize(shipExplosion);
 	EnemyTargetedMover::mMoveSpeed = 2.5f;
 	EnemyTargetedMover::mMoveTimer = 6.666f;
 	EnemyTargetedMover::mMaxVolicityX = 16.666f;
@@ -43,7 +45,7 @@ void AngreiferFoundCity::Initialize(sf::Texture *texture, sf::Texture *shotTextu
 
 void AngreiferFoundCity::Setup(sf::Vector2f position, sf::Vector2f velocity, int cityNumber, sf::Vector2f cityPosition)
 {
-	EnemyRandomShooter::SetActiveShot(true);
+	EnemyRandomShooter::SetActive(true);
 	EnemyTargetedMover::Setup(position, velocity);
 	mTargetCity = cityPosition;
 	mNextTargetPosition = position;
@@ -90,17 +92,8 @@ sf::Vector2f AngreiferFoundCity::NextTarget(void)
 {
 	sf::Vector2f nextPosition;
 
-	int targetX = int(mTargetCity.x - mNextTargetPosition.x);
-	int targetY = int(mTargetCity.y - mNextTargetPosition.y);
-
-	if (targetX == 0)
-		targetX = 1;
-	
-	if (targetY == 0)
-		targetY = 1;
-
-	nextPosition.x = mTargetCity.x + rand() % targetX;
-	nextPosition.y = mTargetCity.y - rand() % targetY;
+	nextPosition.x = mTargetCity.x + EnemyTargetedMover::RandomNumber(0.0f, mTargetCity.x - mNextTargetPosition.x);
+	nextPosition.y = mTargetCity.y - EnemyTargetedMover::RandomNumber(0.0f, mTargetCity.y - mNextTargetPosition.y);
 
 	mNextTargetLocation.left = nextPosition.x - 4.0f;
 	mNextTargetLocation.top = nextPosition.y - 4.0f;

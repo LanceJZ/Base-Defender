@@ -12,7 +12,7 @@ public:
 	void DrawOtherSide(sf::RenderWindow *window);
 	bool HitbyPlayerShot(void);
 	bool HitPlayer(void);
-
+	void Explode(sf::Vector2f position, float duration);
 	void Initialize(sf::Texture *explosionTexture);
 
 protected:
@@ -21,7 +21,6 @@ protected:
 	float mMaxVolicityX;
 
 	void CheckVelocity(void);
-	void Explode(sf::Vector2f position, float duration);
 
 private:
 	sf::Sprite *mExplosion;

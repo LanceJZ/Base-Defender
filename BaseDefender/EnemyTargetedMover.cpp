@@ -2,19 +2,17 @@
 
 void EnemyTargetedMover::Update(sf::Time *delta)
 {
-	if (m_Active)
-	{
-		Entity::Update(delta);
+	Enemy::Update(delta);
+
+	if (Entity::m_Active)
 		Enemy::CheckVelocity();
-		Enemy::HitbyPlayerShot();
-	}
 }
 
 void EnemyTargetedMover::Initialize(sf::Texture *texture, sf::Vector2u windowSize, sf::Vector2f worldSize)
 {
 	mMoveSpeed = 18.5f;
 	mMoveTimer = 3.5f;
-	mNextMoveTime = MoveTime();
+	mNextMoveTime = Common::ResetTimer(mMoveTimer, mMoveTimer /3);
 	mMaxVolicityX = 150;
 	mMaxVolicityY = 30;
 
@@ -32,14 +30,9 @@ EnemyTargetedMover::EnemyTargetedMover(void)
 {
 }
 
-float EnemyTargetedMover::MoveTime(void)
-{
-	return mClock.getElapsedTime().asSeconds() + float(rand() % int(mMoveTimer) + int(mMoveTimer / 3));
-}
-
 void EnemyTargetedMover::ChaseTarget(sf::Vector2f *target)
 {
-	float magnitude = float((rand() % int(mMoveSpeed)) + mMoveSpeed / 6.666f);
+	float magnitude = Common::RandomNumber(mMoveSpeed / 6.666f, mMoveSpeed);
 	float angle = Entity::AngleToTarget(*Entity::GetPosition(), *target);
 
 	m_Acceleration.y = std::sinf(angle) * magnitude;
@@ -54,7 +47,7 @@ bool EnemyTargetedMover::DoesMovementChange(void)
 {
 	if (mNextMoveTime < mClock.getElapsedTime().asSeconds())
 	{
-		mNextMoveTime = MoveTime();
+		mNextMoveTime = Common::ResetTimer(mMoveTimer, mMoveTimer / 3);
 		return true;
 	}
 

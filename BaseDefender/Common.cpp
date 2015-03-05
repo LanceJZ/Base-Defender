@@ -28,9 +28,14 @@ float Common::AngleToTarget(sf::Vector2f origin, sf::Vector2f target)
 	return std::atan2f(target.y - origin.y, target.x - origin.x);
 }
 
-float Common::ResetTimer(float Amount, float maxAmount, float minAmount)
+float Common::ResetTimer(float maxAmount, float minAmount) //Fix this.
+{	
+	return mClock.getElapsedTime().asSeconds() + RandomNumber(minAmount, maxAmount);
+}
+
+float Common::RandomNumber(float min, float max)
 {
-	return mClock.getElapsedTime().asSeconds() + float(rand() & int(maxAmount - minAmount)) + minAmount;
+	return rand() / (RAND_MAX + 1.0f) * (max - min) + min;
 }
 
 Common::Common()

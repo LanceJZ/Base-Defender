@@ -10,7 +10,7 @@ class EnemyMineLayer :
 public:
 	EnemyMineLayer(void);
 
-	void Update(sf::Time *delta, sf::Vector2f *position);
+	void Update(sf::Time *delta);
 	void Draw(sf::RenderWindow *window);
 	void DrawOtherSide(sf::RenderWindow *window);
 	void Initialize(sf::Texture *texture, sf::Vector2u windowSize, sf::Vector2f worldSize);
@@ -28,7 +28,6 @@ private:
 	sf::Vector2u mWindowSize;
 	sf::Vector2f mWorldSize;
 
-	float MineTimer(void);
 	int SpawnNewMine(void);
 
 	void SetupMine(sf::Vector2f position, int shot);

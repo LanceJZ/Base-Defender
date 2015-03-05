@@ -20,7 +20,6 @@ protected:
 	sf::Clock mClock;
 
 private:
-	float MoveTime(void);
-	
+		
 };
 

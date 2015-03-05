@@ -9,7 +9,7 @@ std::unique_ptr<Background> pBackground(new Background);
 std::unique_ptr<Overlay> pOverlay(new Overlay);
 std::unique_ptr<EnemySpawner> pSpawner(new EnemySpawner);
 
-Game::Game() : mWindow(sf::VideoMode(1280, 720), "Base Defender SFML version A00001.12", sf::Style::Close)
+Game::Game() : mWindow(sf::VideoMode(1280, 720), "Base Defender SFML version A00001.14", sf::Style::Close)
 , mWorldView(mWindow.getDefaultView())
 , mWorldOthersideView(mWindow.getDefaultView())
 {	

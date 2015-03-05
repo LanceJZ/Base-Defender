@@ -3,7 +3,6 @@
 void Enemy::Update(sf::Time *delta)
 {
 	Entity::Update(delta);
-
 	Entity::SetPosition(&sf::Vector2f(*Common::CheckForEdge(&Entity::GetPosition()->x, &Entity::m_WorldSize.x), Entity::GetPosition()->y));
 
 	if (mExploding)
@@ -17,10 +16,10 @@ void Enemy::Update(sf::Time *delta)
 		if (pPlayer != NULL)
 		{
 			if (HitbyPlayerShot())
-				Explode(*Entity::GetPosition(), 1.0f);
+				Explode(*Entity::GetPosition(), 2.0f);
 
 			if (HitPlayer())
-				Explode(*Entity::GetPosition(), 1.0f);
+				Explode(*Entity::GetPosition(), 2.0f);
 		}
 	}
 }
@@ -28,6 +27,7 @@ void Enemy::Update(sf::Time *delta)
 void Enemy::Draw(sf::RenderWindow *window)
 {
 	Entity::Draw(window);
+	sf::Vector2f pos = *Entity::GetPosition();
 
 	if (mExploding)
 		window->draw(*mExplosion);
@@ -129,10 +129,12 @@ void Enemy::Explode(sf::Vector2f position, float duration)
 	if (mExplosion != NULL)
 	{
 		//Puts center of explosion over position.
-		position.y = position.y - mExplosion->getTextureRect().height / 2;
-		position.x = position.x - mExplosion->getTextureRect().width / 2;
+		position.x = position.x - mExplosion->getTextureRect().width / 2 + Entity::GetCollision()->width / 2;
+		position.y = position.y - mExplosion->getTextureRect().height / 2 + Entity::GetCollision()->height / 2;
 		mExplosion->setPosition(position);
 		mExploding = true;
-		mTimerExplode = ResetTimer(duration, duration / 1.25f, duration / 4);
+		float test = mClock.getElapsedTime().asSeconds();
+		mTimerExplode = Common::ResetTimer(duration, duration / 4);
+		float tester = mClock.getElapsedTime().asSeconds();
 	}
 }

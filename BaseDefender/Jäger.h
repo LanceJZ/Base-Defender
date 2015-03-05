@@ -2,14 +2,13 @@
 #ifndef Jäger_H
 #define Jäger_H
 
-#include "Entity.h"
+#include "Enemy.h"
 
 class Jäger :
-	public Entity
+	public Enemy
 {
 public:
 	Jäger();
-	~Jäger();
 };
 
 #endif

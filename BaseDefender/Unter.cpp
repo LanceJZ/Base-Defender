@@ -7,17 +7,18 @@ void Unter::Update(sf::Time *delta)
 
 void Unter::Draw(sf::RenderWindow *window)
 {
-	Entity::Draw(window);
+	Enemy::Draw(window);
 }
 
 void Unter::DrawOtherSide(sf::RenderWindow *window)
 {
-	Entity::DrawOtherSide(window);
+	Enemy::DrawOtherSide(window);
 }
 
-void Unter::Initialize(sf::Texture *texture, sf::Vector2u windowSize, sf::Vector2f worldSize)
+void Unter::Initialize(sf::Texture *texture, sf::Texture *shipExplosion, sf::Vector2u windowSize, sf::Vector2f worldSize)
 {
 	EnemyRandomMover::Initialize(texture, windowSize, worldSize);
+	Enemy::Initialize(shipExplosion);
 }
 
 void Unter::PlayerPointer(std::shared_ptr<Player> playerSP)

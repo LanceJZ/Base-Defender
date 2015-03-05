@@ -12,7 +12,7 @@ public:
 	void Initialize(sf::Texture *OverlayTexture);
 
 private:
-	sf::Sprite mOverlay;
+	sf::Sprite *mOverlay;
 };
 
 #endif

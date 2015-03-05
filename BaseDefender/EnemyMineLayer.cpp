@@ -1,7 +1,9 @@
 #include "EnemyMineLayer.h"
 
-void EnemyMineLayer::Update(sf::Time *delta, sf::Vector2f *position)
+void EnemyMineLayer::Update(sf::Time *delta)
 {
+	Enemy::Update(delta);
+
 	for (size_t mine = 0; mine < mMines.size(); mine++)
 	{
 		mMines.at(mine)->Update(delta);
@@ -11,8 +13,8 @@ void EnemyMineLayer::Update(sf::Time *delta, sf::Vector2f *position)
 	{
 		if (mNextMineTimer < mClock.getElapsedTime().asSeconds())
 		{
-			mNextMineTimer = MineTimer();
-			LayMine(*position);
+			mNextMineTimer = Common::ResetTimer(mMineLaySpeed, mMineLaySpeed / 2);
+			LayMine(*Entity::GetPosition());
 		}
 
 		if (Entity::GetPosition()->x > m_WorldSize.x)
@@ -29,6 +31,8 @@ void EnemyMineLayer::Update(sf::Time *delta, sf::Vector2f *position)
 
 void EnemyMineLayer::Draw(sf::RenderWindow *window)
 {
+	Enemy::Draw(window);
+
 	for (size_t mine = 0; mine < mMines.size(); mine++)
 	{
 		mMines.at(mine)->Draw(window);
@@ -37,6 +41,8 @@ void EnemyMineLayer::Draw(sf::RenderWindow *window)
 
 void EnemyMineLayer::DrawOtherSide(sf::RenderWindow *window)
 {
+	Enemy::DrawOtherSide(window);
+	
 	for (size_t mine = 0; mine < mMines.size(); mine++)
 	{
 		mMines.at(mine)->DrawOtherSide(window);
@@ -50,7 +56,7 @@ void EnemyMineLayer::Initialize(sf::Texture *texture, sf::Vector2u windowSize, s
 	mWindowSize = windowSize;
 	mWorldSize = worldSize;
 
-	mNextMineTimer = MineTimer();
+	mNextMineTimer = Common::ResetTimer(mMineLaySpeed, mMineLaySpeed /2);
 }
 
 void EnemyMineLayer::LayMine(sf::Vector2f position)
@@ -78,11 +84,6 @@ void EnemyMineLayer::LayMine(sf::Vector2f position)
 
 EnemyMineLayer::EnemyMineLayer(void)
 {
-}
-
-float EnemyMineLayer::MineTimer(void)
-{
-	return mClock.getElapsedTime().asSeconds() + float(rand() % int(mMineLaySpeed)) + mMineLaySpeed / 2;
 }
 
 int EnemyMineLayer::SpawnNewMine(void)

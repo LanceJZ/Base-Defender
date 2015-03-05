@@ -11,10 +11,10 @@ void EnemyCitySpawner::Update(sf::Time *delta)
 	{
 		mAngreiferFCs.at(ship)->Update(delta);
 
-		if (mAngreiferFCs.at(ship)->InPositionToBombCity() && mAngreiferFCs.at(ship)->GetActive())
+		if (mAngreiferFCs.at(ship)->InPositionToBombCity() && mAngreiferFCs.at(ship)->Entity::GetActive())
 		{
 			SpawnAngriff_auf_Stadt(*mAngreiferFCs.at(ship)->GetPosition(), *mAngreiferFCs.at(ship)->GetVelocity(), mAngreiferFCs.at(ship)->GetCityNumber(), mAngreiferFCs.at(ship)->GetCityTarget());
-			mAngreiferFCs.at(ship)->SetActive(false);
+			mAngreiferFCs.at(ship)->Entity::SetActive(false);
 		}
 	}
 
@@ -26,7 +26,7 @@ void EnemyCitySpawner::Update(sf::Time *delta)
 	if (mAngreiferSpawnTimer < Common::mClock.getElapsedTime().asSeconds())
 	{
 		SpawnAngreifers();
-		mAngreiferSpawnTimer = ResetTimer(mAngreiferSpawnTimerAmount / 1.80f, mAngreiferSpawnTimerAmount, mAngreiferSpawnTimerAmount / 4.0f);
+		mAngreiferSpawnTimer = ResetTimer(mAngreiferSpawnTimerAmount, mAngreiferSpawnTimerAmount / 4.0f);
 	}
 
 	if (mAngreifers.size() > 0)
@@ -34,7 +34,7 @@ void EnemyCitySpawner::Update(sf::Time *delta)
 		if (mCityHuntTimer < Common::mClock.getElapsedTime().asSeconds())
 		{
 			SendAngreiferToCity();
-			mCityHuntTimer = ResetTimer(mCityHuntTimerAmount / 1.80f, mCityHuntTimerAmount + mAngreiferFCs.size(), mCityHuntTimerAmount / 4.0f);
+			mCityHuntTimer = ResetTimer(mCityHuntTimerAmount + mAngreiferFCs.size(), mCityHuntTimerAmount / 4.0f);
 		}
 	}
 }
@@ -91,9 +91,9 @@ void EnemyCitySpawner::Initialize(sf::Texture *angreiferTexture, sf::Texture *an
 
 	mNumberOfAngreifers = 6;
 	mAngreiferSpawnTimerAmount = 230;
-	mAngreiferSpawnTimer = ResetTimer(mAngreiferSpawnTimerAmount / 1.50f, mAngreiferSpawnTimerAmount, mAngreiferSpawnTimerAmount / 4.0f);
+	mAngreiferSpawnTimer = ResetTimer(mAngreiferSpawnTimerAmount, mAngreiferSpawnTimerAmount / 4.0f);
 	mCityHuntTimerAmount = 15;
-	mCityHuntTimer = ResetTimer(mCityHuntTimerAmount / 1.50f, mCityHuntTimerAmount, mCityHuntTimerAmount / 4.0f);
+	mCityHuntTimer = ResetTimer(mCityHuntTimerAmount, mCityHuntTimerAmount / 4.0f);
 
 	SpawnAngreifers();
 }
@@ -129,13 +129,11 @@ void EnemyCitySpawner::SpawnAngreifers(void)
 		{
 			mAngreifers.push_back(std::unique_ptr<Angreifer>(new Angreifer()));
 			spawnShip = mAngreifers.size() - 1;
-			mAngreifers.at(spawnShip)->Initialize(mAngreiferTexture, mAngreiferShotTexture, mWindowSize, mWorldSize);
+			mAngreifers.at(spawnShip)->Initialize(mAngreiferTexture, mAngreiferShotTexture, mEnemyExplosion, mWindowSize, mWorldSize);
 			mAngreifers.at(spawnShip)->PlayerPointer(pPlayer);
 		}
 
-		float height = float((rand() % 10) + 20);
-		float width = float(rand() % int(mWorldSize.x));
-		mAngreifers.at(spawnShip)->Setup(sf::Vector2f(width, height), sf::Vector2f(float((rand() % 10) - 5), 1.0f));
+		mAngreifers.at(spawnShip)->Setup(sf::Vector2f(Common::RandomNumber(20.0f, mWorldSize.x), Common::RandomNumber(10, 30)), sf::Vector2f(Common::RandomNumber(-5.0f, 5.0f), 5.0f));
 	}
 
 }
@@ -155,10 +153,10 @@ void EnemyCitySpawner::SendAngreiferToCity(void)
 			liveShips++;
 	}
 
-	if (liveShips < 2)
+	if (liveShips < 1)
 		return;
 
-	int sendShip = (rand() % liveShips);
+	int sendShip = int(Common::RandomNumber(1.0f, float(liveShips)));
 
 	for (size_t ship = 0; ship < mAngreifers.size(); ship++)
 	{
@@ -187,7 +185,7 @@ void EnemyCitySpawner::SpawnmAngreiferFC(sf::Vector2f position, sf::Vector2f vel
 
 	for (size_t ship = 0; ship < mAngreiferFCs.size(); ship++)
 	{
-		if (!mAngreiferFCs.at(ship)->GetActive())
+		if (!mAngreiferFCs.at(ship)->Entity::GetActive())
 		{
 			spawnNewShip = false;
 			spawnShip = ship;
@@ -199,7 +197,7 @@ void EnemyCitySpawner::SpawnmAngreiferFC(sf::Vector2f position, sf::Vector2f vel
 	{
 		mAngreiferFCs.push_back(std::unique_ptr<AngreiferFoundCity>(new AngreiferFoundCity()));
 		spawnShip = mAngreiferFCs.size() - 1;
-		mAngreiferFCs.at(spawnShip)->Initialize(mAngreiferFCTexture, mAngreiferShotTexture, mWindowSize, mWorldSize);
+		mAngreiferFCs.at(spawnShip)->Initialize(mAngreiferFCTexture, mAngreiferShotTexture, mEnemyExplosion, mWindowSize, mWorldSize);
 		mAngreiferFCs.at(spawnShip)->PlayerPointer(pPlayer);
 		mAngreiferFCs.at(spawnShip)->CityPointer(pCities);
 	}
@@ -211,8 +209,8 @@ void EnemyCitySpawner::SpawnmAngreiferFC(sf::Vector2f position, sf::Vector2f vel
 	else if (cityNumber > 3)
 		cityNumber = 3;
 
-	cityPosition = sf::Vector2f(pCities->CityCollusion(cityNumber).left + 20 + float(rand() % int(pCities->CityCollusion(cityNumber).width - 20)),
-	pCities->CityCollusion(cityNumber).top - float(rand() % int(30.0f)) + 20.0f);
+	cityPosition = sf::Vector2f(pCities->CityCollusion(cityNumber).left + Common::RandomNumber(40.0f, pCities->CityCollusion(cityNumber).width -40.0f),
+		pCities->CityCollusion(cityNumber).top - Common::RandomNumber(30.0f ,50.0f));
 
 	mAngreiferFCs.at(spawnShip)->Setup(position, velocity, cityNumber, cityPosition);
 }
@@ -224,7 +222,7 @@ void EnemyCitySpawner::SpawnAngriff_auf_Stadt(sf::Vector2f postion, sf::Vector2f
 
 	for (size_t ship = 0; ship < mAngriff_auf_Stadts.size(); ship++)
 	{
-		if (!mAngriff_auf_Stadts.at(ship)->GetActive())
+		if (!mAngriff_auf_Stadts.at(ship)->Entity::GetActive())
 		{
 			spawnNewShip = false;
 			spawnShip = ship;

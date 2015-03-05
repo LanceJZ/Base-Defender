@@ -43,7 +43,7 @@ void EnemyMine::LayMine(sf::Vector2f position)
 {
 	Entity::SetPosition(&position);
 	Entity::m_Active = true;
-	mTimerLife = Common::ResetTimer(mTimerAmount, mTimerAmount * 2, mTimerAmount / 4);
+	mTimerLife = Common::ResetTimer(mTimerAmount, mTimerAmount / 4);
 }
 
 EnemyMine::EnemyMine(void)

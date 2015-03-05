@@ -22,10 +22,10 @@ protected:
 	void Draw(sf::RenderWindow *window);
 	void DrawOtherSide(sf::RenderWindow *window);
 	void Initialize(sf::Texture *texture, sf::Vector2i offset, sf::Vector2u windowSize, sf::Vector2f worldSize);
-	void FireShot(sf::Vector2f position);
+	void FireShot(sf::Vector2f *position);
 	void PlayerPointer(std::shared_ptr<Player> playerSP);
-	bool GetActiveShot(void);
-	void SetActiveShot(bool active);
+	bool GetActive(void);
+	void SetActive(bool active);
 
 private:
 	std::shared_ptr<Player> pPlayer;
@@ -40,7 +40,6 @@ private:
 
 	sf::Vector2f RandomShotVector(void);
 
-	float ShotTime(void);
 	int SpawnNewShot(void);
 
 	void SetupShot(sf::Vector2f position, int shot);

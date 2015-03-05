@@ -5,7 +5,3 @@ Jäger::Jäger()
 {
 }
 
-
-Jäger::~Jäger()
-{
-}

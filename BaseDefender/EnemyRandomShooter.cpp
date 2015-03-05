@@ -11,8 +11,8 @@ void EnemyRandomShooter::Update(sf::Time *delta, sf::Vector2f *position)
 	{
 		if (mNextShotTime < mClock.getElapsedTime().asSeconds())
 		{
-			mNextShotTime = ShotTime();
-			FireShot(*position);
+			mNextShotTime = Common::ResetTimer(mShotTimer, mShotTimer / 2);
+			FireShot(position);
 		}
 	}
 }
@@ -33,7 +33,7 @@ void EnemyRandomShooter::DrawOtherSide(sf::RenderWindow *window)
 	}
 }
 
-void EnemyRandomShooter::FireShot(sf::Vector2f position) //Shot Factory, Offset amount of X and Y to move position to offset shot origin.
+void EnemyRandomShooter::FireShot(sf::Vector2f *position) //Shot Factory, Offset amount of X and Y to move position to offset shot origin.
 {
 	bool spawnNewShot = true;
 	int spawnShot = 0;
@@ -53,7 +53,7 @@ void EnemyRandomShooter::FireShot(sf::Vector2f position) //Shot Factory, Offset 
 		spawnShot = SpawnNewShot();
 	}
 
-	SetupShot(sf::Vector2f(position.x + mOffset.x, position.y + mOffset.y), spawnShot);
+	SetupShot(sf::Vector2f(position->x + mOffset.x, position->y + mOffset.y), spawnShot);
 }
 
 int EnemyRandomShooter::SpawnNewShot(void)
@@ -82,7 +82,7 @@ void EnemyRandomShooter::Initialize(sf::Texture *Texture, sf::Vector2i offset, s
 	mWorldSize = WorldBounds;
 	mOffset = offset;
 
-	mNextShotTime = ShotTime();
+	mNextShotTime = Common::ResetTimer(mShotTimer, mShotTimer / 2);
 }
 
 void EnemyRandomShooter::PlayerPointer(std::shared_ptr<Player> playerSP)
@@ -90,12 +90,12 @@ void EnemyRandomShooter::PlayerPointer(std::shared_ptr<Player> playerSP)
 	pPlayer = playerSP;
 }
 
-bool EnemyRandomShooter::GetActiveShot(void)
+bool EnemyRandomShooter::GetActive(void)
 {
 	return mActive;
 }
 
-void EnemyRandomShooter::SetActiveShot(bool active)
+void EnemyRandomShooter::SetActive(bool active)
 {
 	mActive = active;
 }
@@ -104,15 +104,7 @@ EnemyRandomShooter::EnemyRandomShooter(void)
 {	
 }
 
-float EnemyRandomShooter::ShotTime(void)
-{
-	return mClock.getElapsedTime().asSeconds() + float(rand() % int(mShotTimer)) + mShotTimer / 2;
-}
-
 sf::Vector2f EnemyRandomShooter::RandomShotVector(void)
 {
-	float random = rand() / (RAND_MAX + 1.0f);
-	float angle = random * 2.0f * (float)M_PI;
-
-	return Common::AngleToVector(angle, 100);
+	return Common::AngleToVector(Common::RandomNumber(0.0f, 2.0f * (float)M_PI), 100);
 }

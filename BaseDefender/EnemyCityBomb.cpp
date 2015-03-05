@@ -29,7 +29,7 @@ void EnemyCityBomb::Initialize(sf::Texture *texture, sf::Texture *explosionTextu
 {
 	Entity::Initialize(texture, windowSize, worldSize);
 	Enemy::Initialize(explosionTexture);
-	mExplodeTimerAmount = 1.5f;
+	mExplodeTimerAmount = 2.0f;
 	mCityCollision = new sf::FloatRect;
 }
 

@@ -9,12 +9,12 @@ void Angriff_auf_Stadt::Update(sf::Time *delta)
 
 		if (mBombDropTimer < Entity::mClock.getElapsedTime().asSeconds())
 		{
-			mBombDropTimer = EnemyTargetedMover::ResetTimer(mBombDropAmount, mBombDropAmount / 1.5f, mBombDropAmount / 2);
+			mBombDropTimer = EnemyTargetedMover::ResetTimer(mBombDropAmount, mBombDropAmount / 2);
 			DropBomb();
 		}
 	}
 
-	EnemyRandomShooter::SetActiveShot(Entity::m_Active);
+	EnemyRandomShooter::SetActive(Entity::m_Active);
 	EnemyRandomShooter::Update(delta, Entity::GetPosition());
 	EnemyTargetedMover::Update(delta);
 	mBomb->Update(delta);
@@ -52,13 +52,13 @@ void Angriff_auf_Stadt::Initialize(sf::Texture *texture, sf::Texture *shotTextur
 
 void Angriff_auf_Stadt::Setup(sf::Vector2f position, sf::Vector2f velocity, int cityNumber, sf::Vector2f cityPosition)
 {
-	EnemyRandomShooter::SetActiveShot(true);
+	EnemyRandomShooter::SetActive(true);
 	EnemyTargetedMover::Setup(position, velocity);
 	mBombCityNumber = cityNumber;
 	mNextTargetPosition = sf::Vector2f(cityPosition.x, cityPosition.y - 100);
 	mTargetCity = sf::Vector2f(pCities->CityCollusion(cityNumber).left + pCities->CityCollusion(cityNumber).width / 2, 
 		pCities->CityCollusion(cityNumber).top + pCities->CityCollusion(cityNumber).height / 2);
-	mBombDropTimer = EnemyTargetedMover::ResetTimer(mBombDropAmount, mBombDropAmount / 1.25f, mBombDropAmount / 2);
+	mBombDropTimer = EnemyTargetedMover::ResetTimer(mBombDropAmount, mBombDropAmount / 2);
 	sf::Vector2f targetCity = sf::Vector2f(pCities->CityCollusion(mBombCityNumber).left,
 		pCities->CityCollusion(mBombCityNumber).top);
 	mBomb->CityInfo(targetCity, pCities->CityCollusion(mBombCityNumber).width);

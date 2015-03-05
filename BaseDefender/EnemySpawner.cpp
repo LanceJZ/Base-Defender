@@ -73,7 +73,7 @@ void EnemySpawner::Initialize(sf::Texture *angreiferTexture, sf::Texture *angrei
 	mUnterTexture = unterTexture;
 	mSchwärmeTexture = schwärmeTexture;
 	mAngreiferShotTexture = angreiferShotTexture;
-	mEnemyExplosion = enemyExplosion; //TODO:: Make them explode
+	mEnemyExplosion = enemyExplosion;
 
 	mNumberOfMinenlegers = 3;
 	mNumberOfUnters = 3;
@@ -108,7 +108,8 @@ void EnemySpawner::IsUnterHit(int ship)
 	{
 		if (mUnters.at(ship)->HitbyPlayerShot())
 		{
-			SpawnSchwärmes(*mUnters.at(ship)->GetPosition());			
+			SpawnSchwärmes(*mUnters.at(ship)->GetPosition());
+			mUnters.at(ship)->Explode(*mUnters.at(ship)->GetPosition(), 2.5f);
 		}
 	}
 }
@@ -134,11 +135,11 @@ void EnemySpawner::SpawnSchwärmes(sf::Vector2f position)
 		{
 			mSchwärmes.push_back(std::unique_ptr<Schwärme>(new Schwärme()));
 			spawnShip = mSchwärmes.size() - 1;
-			mSchwärmes.at(spawnShip)->Initialize(mSchwärmeTexture, mAngreiferShotTexture, mWindowSize, mWorldSize);
+			mSchwärmes.at(spawnShip)->Initialize(mSchwärmeTexture, mAngreiferShotTexture, mEnemyExplosion, mWindowSize, mWorldSize);
 			mSchwärmes.at(spawnShip)->PlayerPointer(pPlayer);
 		}
 
-		mSchwärmes.at(spawnShip)->Setup((position), sf::Vector2f(float((rand() % 90) - 45), float((rand() % 40) - 20)));
+		mSchwärmes.at(spawnShip)->Setup((position), sf::Vector2f(Common::RandomNumber(-45.0f, 45.0f), Common::RandomNumber(-20.0f, 20.0f)));
 	}
 }
 
@@ -163,13 +164,11 @@ void EnemySpawner::SpawnUnters(void)
 		{
 			mUnters.push_back(std::unique_ptr<Unter>(new Unter()));
 			spawnShip = mUnters.size() - 1;
-			mUnters.at(spawnShip)->Initialize(mUnterTexture, mWindowSize, mWorldSize);
+			mUnters.at(spawnShip)->Initialize(mUnterTexture, mEnemyExplosion, mWindowSize, mWorldSize);
 			mUnters.at(spawnShip)->PlayerPointer(pPlayer);
 		}
 
-		float height = float((rand() % 10) + 20);
-		float width = float(rand() % int(mWorldSize.x));
-		mUnters.at(spawnShip)->Setup(sf::Vector2f(width, height), sf::Vector2f(float((rand() % 10) - 5), 1.0f));
+		mUnters.at(spawnShip)->Setup(sf::Vector2f(Common::RandomNumber(10.0f, mWorldSize.x), Common::RandomNumber(20, 30)), sf::Vector2f(Common::RandomNumber(-5.0f, 10.0f), 1.0f));
 	}
 }
 
@@ -194,31 +193,29 @@ void EnemySpawner::SpawnMinenlegers(void)
 		{
 			mMinenlegers.push_back(std::unique_ptr<Minenleger>(new Minenleger()));
 			spawnShip = mMinenlegers.size() - 1;
-			mMinenlegers.at(spawnShip)->Initialize(mMinenlegerTexture, mMineTexture, mWindowSize, mWorldSize);
+			mMinenlegers.at(spawnShip)->Initialize(mMinenlegerTexture, mMineTexture, mEnemyExplosion, mWindowSize, mWorldSize);
 			mMinenlegers.at(spawnShip)->PlayerPointer(pPlayer);
 		}
 
-		float width = float(rand() % int(mWorldSize.x));
 		float height;
-		float yVelocity;
 		float xVelocity;
+		float yVelocity;
 
-		if (float(rand() %10) > 5)
-			yVelocity = float((rand() % 10) +5);
+		if (Common::RandomNumber(0.0f, 10.0f) > 5.0f)
+			xVelocity = Common::RandomNumber(15.0f, 35.0f);
 		else
-			yVelocity = float((rand() % 10) - 15);
+			xVelocity = Common::RandomNumber(-15.0f, -35.0f);
 
-		if (float(rand() % 10) > 5)
-			xVelocity = float((rand() % 20) + 15);
+		if (Common::RandomNumber(0.0f, 10.0f) > 5.0f)
+			yVelocity = Common::RandomNumber(-5.0f, -15.0f);
 		else
-			xVelocity = float((rand() % 20) - 35);
+			yVelocity = Common::RandomNumber(5.0f, 15.0f);
 
 		if (yVelocity > 0)
-			height = 60;
-
-		if (yVelocity < 0)
+			height = 60.0f;
+		else
 			height = float(mWindowSize.y - 100);
 
-		mMinenlegers.at(spawnShip)->Setup(sf::Vector2f(width, height), sf::Vector2f(xVelocity, yVelocity));
+		mMinenlegers.at(spawnShip)->Setup(sf::Vector2f(Common::RandomNumber(10.0f, mWorldSize.x), height), sf::Vector2f(xVelocity, yVelocity));
 	}
 }
