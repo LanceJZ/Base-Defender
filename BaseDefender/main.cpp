@@ -1,15 +1,15 @@
 #include "Game.h"
-
 #include <stdexcept>
 #include <iostream>
+
+std::unique_ptr<Game> pGame(new Game());
 
 int main()
 {
 	try
 	{
-		Game game;
-		game.Initialize();
-		game.Run();
+		pGame->Initialize();
+		pGame->Run();
 	}
 
 	catch (std::exception& Except)

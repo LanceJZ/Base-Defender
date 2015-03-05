@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Background.h"
 #include "Overlay.h"
+#include "Radar.h"
 #include "Cities.h"
 
 #include "EnemySpawner.h"
@@ -60,12 +61,12 @@ private:
 	//Player *pPlayer;
 
 	sf::Vector2f mWorldSize;
-	sf::RenderWindow mWindow;
-	sf::View mWorldView;
-	sf::View mWorldOthersideView;
+	sf::RenderWindow *mWindow;
+	sf::View *mWorldView;
+	sf::View *mWorldOthersideView;
 
-	void ProcessInput(sf::Event event);
-	void Update(sf::Time delta);
+	void ProcessInput(sf::Event *event);
+	void Update(sf::Time *delta);
 	void Draw(void);
 };
 

@@ -114,6 +114,7 @@
     <ClCompile Include="Overlay.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerShot.cpp" />
+    <ClCompile Include="Radar.cpp" />
     <ClCompile Include="Schwärme.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Unter.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="Overlay.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerShot.h" />
+    <ClInclude Include="Radar.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Schwärme.h" />
     <ClInclude Include="Unter.h" />
