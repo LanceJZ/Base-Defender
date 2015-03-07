@@ -19,12 +19,13 @@ void Angreifer::DrawOtherSide(sf::RenderWindow *window)
 	EnemyRandomShooter::DrawOtherSide(window);
 }
 
-void Angreifer::Initialize(sf::Texture *texture, sf::Texture *shotTexture, sf::Texture *shipExplosion,
+void Angreifer::Initialize(sf::Texture *texture, sf::Texture *radarTexture, sf::Texture *shotTexture, sf::Texture *shipExplosion,
 	sf::Vector2u windowSize, sf::Vector2f worldSize)
 {
 	EnemyRandomShooter::Initialize(shotTexture, sf::Vector2i(texture->getSize().x / 2, texture->getSize().y / 2), windowSize, worldSize);
 	EnemyRandomMover::Initialize(texture, windowSize, worldSize);
 	Enemy::Initialize(shipExplosion);
+	Enemy::mRadar->setTexture(*radarTexture);
 }
 
 void Angreifer::Setup(sf::Vector2f position, sf::Vector2f velocity)

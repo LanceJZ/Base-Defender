@@ -75,6 +75,24 @@ void EnemyCitySpawner::DrawOtherSide(sf::RenderWindow *window)
 	}
 }
 
+void EnemyCitySpawner::DrawRadar(sf::RenderWindow *window)
+{
+	for (size_t ship = 0; ship < mAngreifers.size(); ship++)
+	{
+		mAngreifers.at(ship)->DrawRadar(window);
+	}
+
+	for (size_t ship = 0; ship < mAngreiferFCs.size(); ship++)
+	{
+		mAngreiferFCs.at(ship)->DrawRadar(window);
+	}
+
+	for (size_t ship = 0; ship < mAngriff_auf_Stadts.size(); ship++)
+	{
+		mAngriff_auf_Stadts.at(ship)->DrawRadar(window);
+	}
+}
+
 void EnemyCitySpawner::Initialize(sf::Texture *angreiferTexture, sf::Texture *angreiferShotTexture, sf::Texture *stadt_AngreiferTexture,
 	sf::Texture *angreiferFCTexture, sf::Texture *bombTexture, sf::Texture *bombExplosion, sf::Texture *enemyExplosion,
 	sf::Vector2u windowSize, sf::Vector2f worldBounds)
@@ -96,6 +114,11 @@ void EnemyCitySpawner::Initialize(sf::Texture *angreiferTexture, sf::Texture *an
 	mCityHuntTimer = ResetTimer(mCityHuntTimerAmount, mCityHuntTimerAmount / 4.0f);
 
 	SpawnAngreifers();
+}
+
+void EnemyCitySpawner::InitializeRadar(sf::Texture *angreiferRadarTexture)
+{
+	mAngreiferRadarTexture = angreiferRadarTexture;
 }
 
 void EnemyCitySpawner::PlayerPointer(std::shared_ptr<Player> playerSP)
@@ -129,7 +152,7 @@ void EnemyCitySpawner::SpawnAngreifers(void)
 		{
 			mAngreifers.push_back(std::unique_ptr<Angreifer>(new Angreifer()));
 			spawnShip = mAngreifers.size() - 1;
-			mAngreifers.at(spawnShip)->Initialize(mAngreiferTexture, mAngreiferShotTexture, mEnemyExplosion, mWindowSize, mWorldSize);
+			mAngreifers.at(spawnShip)->Initialize(mAngreiferTexture, mAngreiferRadarTexture, mAngreiferShotTexture, mEnemyExplosion, mWindowSize, mWorldSize);
 			mAngreifers.at(spawnShip)->PlayerPointer(pPlayer);
 		}
 
@@ -139,7 +162,7 @@ void EnemyCitySpawner::SpawnAngreifers(void)
 }
 
 EnemyCitySpawner::EnemyCitySpawner(void)
-{
+{	
 }
 
 void EnemyCitySpawner::SendAngreiferToCity(void)
@@ -197,7 +220,7 @@ void EnemyCitySpawner::SpawnmAngreiferFC(sf::Vector2f position, sf::Vector2f vel
 	{
 		mAngreiferFCs.push_back(std::unique_ptr<AngreiferFoundCity>(new AngreiferFoundCity()));
 		spawnShip = mAngreiferFCs.size() - 1;
-		mAngreiferFCs.at(spawnShip)->Initialize(mAngreiferFCTexture, mAngreiferShotTexture, mEnemyExplosion, mWindowSize, mWorldSize);
+		mAngreiferFCs.at(spawnShip)->Initialize(mAngreiferFCTexture, mAngreiferRadarTexture, mAngreiferShotTexture, mEnemyExplosion, mWindowSize, mWorldSize);
 		mAngreiferFCs.at(spawnShip)->PlayerPointer(pPlayer);
 		mAngreiferFCs.at(spawnShip)->CityPointer(pCities);
 	}
@@ -234,7 +257,7 @@ void EnemyCitySpawner::SpawnAngriff_auf_Stadt(sf::Vector2f postion, sf::Vector2f
 	{
 		mAngriff_auf_Stadts.push_back(std::unique_ptr<Angriff_auf_Stadt>(new Angriff_auf_Stadt()));
 		spawnShip = mAngriff_auf_Stadts.size() - 1;
-		mAngriff_auf_Stadts.at(spawnShip)->Initialize(mStadt_AngreiferTexture, mAngreiferShotTexture, mBombTexture, mBombExplosion, mEnemyExplosion, mWindowSize, mWorldSize);
+		mAngriff_auf_Stadts.at(spawnShip)->Initialize(mStadt_AngreiferTexture, mAngreiferRadarTexture, mAngreiferShotTexture, mBombTexture, mBombExplosion, mEnemyExplosion, mWindowSize, mWorldSize);
 		mAngriff_auf_Stadts.at(spawnShip)->PlayerPointer(pPlayer);
 		mAngriff_auf_Stadts.at(spawnShip)->CityPointer(pCities);
 	}

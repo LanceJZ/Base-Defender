@@ -10,6 +10,7 @@ public:
 	void Update(sf::Time *delta);
 	void Draw(sf::RenderWindow *window);
 	void DrawOtherSide(sf::RenderWindow *window);
+	void DrawRadar(sf::RenderWindow *window);
 	bool HitbyPlayerShot(void);
 	bool HitPlayer(void);
 	void Explode(sf::Vector2f position, float duration);
@@ -17,6 +18,8 @@ public:
 
 protected:
 	std::shared_ptr<Player> pPlayer;
+
+	sf::Sprite *mRadar;
 	float mMaxVolicityY;
 	float mMaxVolicityX;
 
@@ -27,5 +30,6 @@ private:
 
 	bool mExploding;
 	float mTimerExplode;
+	void UpdateRadar(void);
 };
 

@@ -8,9 +8,10 @@ class Cities
 public:
 	Cities(void);	
 	
-	void Initialize(sf::Texture *texture, sf::Vector2u windowSize, sf::Vector2f worldSize);
-	void Update(sf::Time *delta);
+	void Initialize(sf::Texture *texture, sf::Texture *radarTexture, sf::Vector2u windowSize, sf::Vector2f worldSize);
+	void Update(sf::Time *delta, float *playerX);
 	void Draw(sf::RenderWindow *window);
+	void DrawRadar(sf::RenderWindow *window);
 	sf::FloatRect CityCollusion(int city);
 
 private:

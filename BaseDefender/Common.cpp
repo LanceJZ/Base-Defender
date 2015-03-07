@@ -40,4 +40,5 @@ float Common::RandomNumber(float min, float max)
 
 Common::Common()
 {
+
 }

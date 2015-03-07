@@ -20,12 +20,13 @@ void Minenleger::DrawOtherSide(sf::RenderWindow *window)
 	EnemyMineLayer::DrawOtherSide(window);
 }
 
-void Minenleger::Initialize(sf::Texture *texture, sf::Texture *bombTexture, sf::Texture *shipExplosion,
+void Minenleger::Initialize(sf::Texture *texture, sf::Texture *radarTexture, sf::Texture *bombTexture, sf::Texture *shipExplosion,
 	sf::Vector2u windowSize, sf::Vector2f worldSize)
 {
 	Entity::Initialize(texture, windowSize, worldSize);
 	EnemyMineLayer::Initialize(bombTexture, windowSize, worldSize);
 	Enemy::Initialize(shipExplosion);
+	Enemy::mRadar->setTexture(*radarTexture);
 }
 
 void Minenleger::Setup(sf::Vector2f position, sf::Vector2f velocity)

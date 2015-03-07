@@ -61,6 +61,26 @@ void EnemySpawner::DrawOtherSide(sf::RenderWindow *window)
 	EnemyCitySpawner::DrawOtherSide(window);
 }
 
+void EnemySpawner::DrawRadar(sf::RenderWindow *window)
+{
+	for (size_t ship = 0; ship < mMinenlegers.size(); ship++)
+	{
+		mMinenlegers.at(ship)->DrawRadar(window);
+	}
+
+	for (size_t ship = 0; ship < mUnters.size(); ship++)
+	{
+		mUnters.at(ship)->DrawRadar(window);
+	}
+
+	for (size_t ship = 0; ship < mSchwärmes.size(); ship++)
+	{
+		mSchwärmes.at(ship)->DrawRadar(window);
+	}
+
+	EnemyCitySpawner::DrawRadar(window);
+}
+
 void EnemySpawner::Initialize(sf::Texture *angreiferTexture, sf::Texture *angreiferShotTexture, sf::Texture *stadt_AngreiferTexture,
 	sf::Texture *angreiferTextureFC, sf::Texture *bombTexture, sf::Texture *bombExplosion, sf::Texture *minenlegerTexture,
 	sf::Texture *mineTexture, sf::Texture *unterTexture, sf::Texture *schwärmeTexture, sf::Texture *enemyExplosion,
@@ -84,6 +104,14 @@ void EnemySpawner::Initialize(sf::Texture *angreiferTexture, sf::Texture *angrei
 	EnemyCitySpawner::Initialize(angreiferTexture, angreiferShotTexture, stadt_AngreiferTexture, angreiferTextureFC, bombTexture, bombExplosion, enemyExplosion, windowSize, worldBounds);
 }
 
+void EnemySpawner::InitializeRadar(sf::Texture *angreiferRadarTexture, sf::Texture *minenlegerRadarTexture, sf::Texture *unterRadarTexture, sf::Texture *schwärmeRadarTexture)
+{
+	EnemyCitySpawner::InitializeRadar(angreiferRadarTexture);
+	mMinenlegerRadarTexture = minenlegerRadarTexture;
+	mUnterRadarTexture = unterRadarTexture;
+	mSchwärmeRadarTexture = schwärmeRadarTexture;
+}
+
 void EnemySpawner::PlayerPointer(std::shared_ptr<Player> playerSP)
 {
 	pPlayer = playerSP;
@@ -98,8 +126,6 @@ void EnemySpawner::CityPointer(std::shared_ptr<Cities> citySP)
 
 EnemySpawner::EnemySpawner(void)
 {
-	/* initialize random seed: */
-	srand(unsigned(time(NULL)));	
 }
 
 void EnemySpawner::IsUnterHit(int ship)
@@ -135,7 +161,7 @@ void EnemySpawner::SpawnSchwärmes(sf::Vector2f position)
 		{
 			mSchwärmes.push_back(std::unique_ptr<Schwärme>(new Schwärme()));
 			spawnShip = mSchwärmes.size() - 1;
-			mSchwärmes.at(spawnShip)->Initialize(mSchwärmeTexture, mAngreiferShotTexture, mEnemyExplosion, mWindowSize, mWorldSize);
+			mSchwärmes.at(spawnShip)->Initialize(mSchwärmeTexture, mSchwärmeRadarTexture, mAngreiferShotTexture, mEnemyExplosion, mWindowSize, mWorldSize);
 			mSchwärmes.at(spawnShip)->PlayerPointer(pPlayer);
 		}
 
@@ -164,7 +190,7 @@ void EnemySpawner::SpawnUnters(void)
 		{
 			mUnters.push_back(std::unique_ptr<Unter>(new Unter()));
 			spawnShip = mUnters.size() - 1;
-			mUnters.at(spawnShip)->Initialize(mUnterTexture, mEnemyExplosion, mWindowSize, mWorldSize);
+			mUnters.at(spawnShip)->Initialize(mUnterTexture, mUnterRadarTexture, mEnemyExplosion, mWindowSize, mWorldSize);
 			mUnters.at(spawnShip)->PlayerPointer(pPlayer);
 		}
 
@@ -193,7 +219,7 @@ void EnemySpawner::SpawnMinenlegers(void)
 		{
 			mMinenlegers.push_back(std::unique_ptr<Minenleger>(new Minenleger()));
 			spawnShip = mMinenlegers.size() - 1;
-			mMinenlegers.at(spawnShip)->Initialize(mMinenlegerTexture, mMineTexture, mEnemyExplosion, mWindowSize, mWorldSize);
+			mMinenlegers.at(spawnShip)->Initialize(mMinenlegerTexture, mMinenlegerRadarTexture, mMineTexture, mEnemyExplosion, mWindowSize, mWorldSize);
 			mMinenlegers.at(spawnShip)->PlayerPointer(pPlayer);
 		}
 

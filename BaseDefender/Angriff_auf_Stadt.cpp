@@ -34,13 +34,14 @@ void Angriff_auf_Stadt::DrawOtherSide(sf::RenderWindow *window)
 	Enemy::DrawOtherSide(window);
 }
 
-void Angriff_auf_Stadt::Initialize(sf::Texture *texture, sf::Texture *shotTexture, sf::Texture *bombTexture, sf::Texture *bombExplosion, sf::Texture *shipExplosion,
+void Angriff_auf_Stadt::Initialize(sf::Texture *texture, sf::Texture *radarTexture, sf::Texture *shotTexture, sf::Texture *bombTexture, sf::Texture *bombExplosion, sf::Texture *shipExplosion,
 	sf::Vector2u windowSize, sf::Vector2f worldSize)
 {
 	mBombTexture = bombTexture;
 	EnemyRandomShooter::Initialize(shotTexture, sf::Vector2i(texture->getSize().x / 2, texture->getSize().y / 2), windowSize, worldSize);
 	EnemyTargetedMover::Initialize(texture, windowSize, worldSize);
 	Enemy::Initialize(shipExplosion);
+	Enemy::mRadar->setTexture(*radarTexture);
 	mBomb->Initialize(bombTexture, bombExplosion, windowSize, worldSize);
 	EnemyTargetedMover::mMoveSpeed = 1.666f;
 	EnemyTargetedMover::mMoveTimer = 6.666f;

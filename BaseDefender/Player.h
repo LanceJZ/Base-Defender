@@ -9,9 +9,10 @@ public:
 	Player(void);
 	
 	void Draw(sf::RenderWindow *window);
+	void DrawRadar(sf::RenderWindow *window);
 	void Update(sf::Time *delta);
 	void Events(sf::Event *event);
-	void Initialize(sf::Texture *Texture, sf::Texture *ShotTexture, sf::Texture *ThrustTexture, sf::Texture *ShieldOverTexture, sf::Texture *ShieldUnderTexture,
+	void Initialize(sf::Texture *Texture, sf::Texture *RadarTexture, sf::Texture *ShotTexture, sf::Texture *ThrustTexture, sf::Texture *ShieldOverTexture, sf::Texture *ShieldUnderTexture,
 		sf::Vector2u WindowSize, sf::Vector2f WorldBounds);
 	void ShotHit(size_t shot);
 	void PlayerHit(void);
@@ -24,9 +25,10 @@ public:
 private:
 	std::vector<std::unique_ptr<PlayerShot>> mShots;
 	sf::Texture *m_ShotTexture;
-	sf::Sprite mThrust;
-	sf::Sprite mShieldUnder;
-	sf::Sprite mShieldOver;
+	sf::Sprite *mThrust;
+	sf::Sprite *mShieldUnder;
+	sf::Sprite *mShieldOver;
+	sf::Sprite *mRadar;
 	sf::Vector2f mTextureSize; //So ship texture can be flipped on sprite using Texture Rectangle.
 	sf::Vector2f mThrustTextureSize; //This is for flipping this texture for the sprite.
 	sf::Vector2f mMaxVol;

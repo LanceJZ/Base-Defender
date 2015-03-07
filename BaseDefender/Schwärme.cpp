@@ -24,12 +24,13 @@ void Schwärme::DrawOtherSide(sf::RenderWindow *window)
 	EnemyRandomShooter::DrawOtherSide(window);
 }
 
-void Schwärme::Initialize(sf::Texture *texture, sf::Texture *shotTexture, sf::Texture *shipExplosion,
+void Schwärme::Initialize(sf::Texture *texture, sf::Texture *radarTexture, sf::Texture *shotTexture, sf::Texture *shipExplosion,
 	sf::Vector2u windowSize, sf::Vector2f worldSize)
 {
 	EnemyTargetedMover::Initialize(texture, windowSize, worldSize);
 	EnemyRandomShooter::Initialize(shotTexture, sf::Vector2i(texture->getSize().x / 2, texture->getSize().y / 2), windowSize, worldSize);
 	Enemy::Initialize(shipExplosion);
+	Enemy::mRadar->setTexture(*radarTexture);
 }
 
 void Schwärme::Setup(sf::Vector2f position, sf::Vector2f velocity)

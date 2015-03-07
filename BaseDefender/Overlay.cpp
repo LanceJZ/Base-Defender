@@ -6,10 +6,9 @@ Overlay::Overlay()
 	mOverlay = new sf::Sprite();
 }
 
-void Overlay::Draw(sf::RenderWindow *Window)
+void Overlay::Draw(sf::RenderWindow *window)
 {
-	Window->setView(Window->getDefaultView());
-	Window->draw(*mOverlay);
+	window->draw(*mOverlay);
 }
 
 void Overlay::Initialize(sf::Texture *OverlayTexture)

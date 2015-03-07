@@ -25,20 +25,22 @@ void Player::Update(sf::Time *delta)
 		if (mShieldDisplayTimer < mClock.getElapsedTime().asSeconds())
 			mShieldOn = false;
 	}
+
+	mRadar->setPosition(sf::Vector2f(Entity::GetPosition()->x + Entity::GetCollision()->width * 0.45f, Entity::GetPosition()->y * 0.1f + m_WorldSize.y + 55));
 }
 
 void Player::Draw(sf::RenderWindow *window)
 {
 	if (mShieldOn)
-		window->draw(mShieldUnder);
+		window->draw(*mShieldUnder);
 
 	if (mThrustOn)
-		window->draw(mThrust);
+		window->draw(*mThrust);
 
 	Entity::Draw(window);
 
 	if (mShieldOn)
-		window->draw(mShieldOver);
+		window->draw(*mShieldOver);
 
 	for (size_t shot = 0; shot < mShots.size(); shot++)
 	{
@@ -47,6 +49,33 @@ void Player::Draw(sf::RenderWindow *window)
 			mShots.at(shot)->Draw(window);
 		}
 	}
+}
+
+void Player::DrawRadar(sf::RenderWindow *window)
+{
+	window->draw(*mRadar);
+}
+
+void Player::Initialize(sf::Texture *Texture, sf::Texture *RadarTexture, sf::Texture *ShotTexture, sf::Texture *ThrustTexture, sf::Texture *ShieldOverTexture, sf::Texture *ShieldUnderTexture,
+	sf::Vector2u WindowSize, sf::Vector2f WorldBounds)
+{
+	Entity::Initialize(Texture, WindowSize, WorldBounds);
+	mTextureSize = sf::Vector2f(Texture->getSize());
+	mShieldOver->setTexture(*ShieldOverTexture);
+	mShieldUnder->setTexture(*ShieldUnderTexture);
+	mThrust->setTexture(*ThrustTexture);
+	mRadar->setTexture(*RadarTexture);
+	mThrustTextureSize = sf::Vector2f(ThrustTexture->getSize());
+	mThrustOn = false;
+	mFlipped = false;
+	SetPosition(&sf::Vector2f(640.0f - Entity::GetCollision()->width / 2, 300.0f));
+	sf::Vector2f pos = *GetPosition();
+	m_ShotTexture = ShotTexture;
+	m_Active = true;
+	mShieldDisplayTimerAmount = 0.15f;
+	mMaxVol.y = 100;
+	mMaxVol.x = 500;
+	mShots.clear();
 }
 
 void Player::Events(sf::Event *event)
@@ -64,7 +93,7 @@ void Player::Events(sf::Event *event)
 				sf::Sprite temp = *Entity::GetSprite();
 				temp.setTextureRect(sf::IntRect(int(mTextureSize.x), 0, int(-mTextureSize.x), int(mTextureSize.y)));
 				Entity::SetSprite(&temp);
-				mThrust.setTextureRect(sf::IntRect(int(mThrustTextureSize.x), 0, int(-mThrustTextureSize.x), int(mThrustTextureSize.y)));
+				mThrust->setTextureRect(sf::IntRect(int(mThrustTextureSize.x), 0, int(-mThrustTextureSize.x), int(mThrustTextureSize.y)));
 				mFlipped = true;
 			}
 
@@ -82,7 +111,7 @@ void Player::Events(sf::Event *event)
 				sf::Sprite temp = *Entity::GetSprite();
 				temp.setTextureRect(sf::IntRect(0, 0, int(mTextureSize.x), int(mTextureSize.y)));
 				Entity::SetSprite(&temp);
-				mThrust.setTextureRect(sf::IntRect(0, 0, int(mThrustTextureSize.x), int(mThrustTextureSize.y)));
+				mThrust->setTextureRect(sf::IntRect(0, 0, int(mThrustTextureSize.x), int(mThrustTextureSize.y)));
 				mFlipped = false;
 			}
 
@@ -123,27 +152,6 @@ void Player::Events(sf::Event *event)
 	}
 }
 
-void Player::Initialize(sf::Texture *Texture, sf::Texture *ShotTexture, sf::Texture *ThrustTexture, sf::Texture *ShieldOverTexture, sf::Texture *ShieldUnderTexture,
-	sf::Vector2u WindowSize, sf::Vector2f WorldBounds)
-{
-	Entity::Initialize(Texture, WindowSize, WorldBounds);
-	mTextureSize = sf::Vector2f(Texture->getSize());
-	mShieldOver.setTexture(*ShieldOverTexture);
-	mShieldUnder.setTexture(*ShieldUnderTexture);
-	mThrust.setTexture(*ThrustTexture);
-	mThrustTextureSize = sf::Vector2f(ThrustTexture->getSize());
-	mThrustOn = false;
-	mFlipped = false;
-	SetPosition(&sf::Vector2f(640.0f - Entity::GetCollision()->width / 2, 300.0f));
-	sf::Vector2f pos = *GetPosition();
-	m_ShotTexture = ShotTexture;
-	m_Active = true;
-	mShieldDisplayTimerAmount = 0.15f;
-	mMaxVol.y = 100;
-	mMaxVol.x = 500;
-	mShots.clear();
-}
-
 size_t Player::ShotCount(void)
 {
 	return mShots.size();
@@ -178,14 +186,17 @@ void Player::PlayerHit(void)
 
 Player::Player()
 {
-	
+	mThrust = new sf::Sprite();
+	mShieldUnder = new sf::Sprite();
+	mShieldOver = new sf::Sprite();
+	mRadar = new sf::Sprite();
 }
 
 void Player::SetShield(void)
 {
 	sf::Vector2f position = *Entity::GetPosition();
-	mShieldOver.setPosition(position.x - 20, position.y - 10);
-	mShieldUnder.setPosition(position.x - 20, position.y - 10);
+	mShieldOver->setPosition(position.x - 20, position.y - 10);
+	mShieldUnder->setPosition(position.x - 20, position.y - 10);
 }
 
 void Player::SetThrust(void)
@@ -203,7 +214,7 @@ void Player::SetThrust(void)
 	}
 
 	position.y = atPosition.y;
-	mThrust.setPosition(position);
+	mThrust->setPosition(position);
 }
 
 void Player::FireShot(void)

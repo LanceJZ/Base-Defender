@@ -20,14 +20,34 @@ void Enemy::Update(sf::Time *delta)
 
 			if (HitPlayer())
 				Explode(*Entity::GetPosition(), 2.0f);
+		
+			if (mRadar->getTexture() != NULL)
+				UpdateRadar();
 		}
 	}
+}
+
+void Enemy::UpdateRadar(void)
+{
+	float playerX = (pPlayer->GetPosition()->x + pPlayer->GetCollision()->width * 0.5f);
+	float radarX = (Entity::GetPosition()->x - playerX) *0.1f;
+	
+	playerX *= 0.1f;
+	radarX += float(m_WindowSize.x * 2) * 0.1f;
+	radarX += float(int(m_WindowSize.x * 0.5f) - 256);
+
+	if (radarX > 895)
+		radarX -= 512;
+
+	if (radarX < 383)
+		radarX += 512;
+
+	mRadar->setPosition(sf::Vector2f(radarX, Entity::GetPosition()->y * 0.1f + m_WorldSize.y + 55));
 }
 
 void Enemy::Draw(sf::RenderWindow *window)
 {
 	Entity::Draw(window);
-	sf::Vector2f pos = *Entity::GetPosition();
 
 	if (mExploding)
 		window->draw(*mExplosion);
@@ -45,6 +65,12 @@ void Enemy::DrawOtherSide(sf::RenderWindow *window)
 			window->draw(*mExplosion);
 		}
 	}
+}
+
+void Enemy::DrawRadar(sf::RenderWindow *window)
+{
+	if (Entity::m_Active)
+		window->draw(*mRadar);
 }
 
 void Enemy::Initialize(sf::Texture *explosionTexture)
@@ -84,6 +110,7 @@ Enemy::Enemy()
 	mMaxVolicityY = 6.666f;
 	mExploding = false;
 	mExplosion = new sf::Sprite();
+	mRadar = new sf::Sprite();
 }
 
 void Enemy::CheckVelocity(void)
