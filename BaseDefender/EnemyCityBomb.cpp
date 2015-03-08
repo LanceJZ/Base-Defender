@@ -38,12 +38,19 @@ void EnemyCityBomb::PlayerPointer(std::shared_ptr<Player> playerSP)
 	Enemy::pPlayer = playerSP;
 }
 
-void EnemyCityBomb::CityInfo(sf::Vector2f cityPosition, float cityWidth)
+void EnemyCityBomb::CityPointer(std::shared_ptr<Cities> citySP)
+{
+	pCities = citySP;
+}
+
+void EnemyCityBomb::CityInfo(sf::Vector2f cityPosition, float cityWidth, int cityNumber)
 {
 	mCityCollision->top = cityPosition.y + 90;
 	mCityCollision->left = cityPosition.x;
 	mCityCollision->width = cityWidth;
 	mCityCollision->height = 40;
+
+	mCityBombing = cityNumber;
 }
 
 void EnemyCityBomb::DropBomb(sf::Vector2f position)
@@ -64,4 +71,5 @@ void EnemyCityBomb::HitTarget(void)
 	Entity::m_Acceleration.y = 0;
 	Entity::m_Velocity.y = 0;
 	Enemy::Explode(*Entity::GetPosition(), mExplodeTimerAmount);
+	pCities->BombHitCity(mCityBombing);
 }

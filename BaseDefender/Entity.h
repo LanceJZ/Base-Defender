@@ -34,6 +34,7 @@ protected:
 	void Draw(sf::RenderWindow *window);
 	void DrawOtherSide(sf::RenderWindow *window);
 	void UpdateCollusionPosition(void);
+	void SetTexture(sf::Texture *texture);
 
 public:
 	Entity(void);

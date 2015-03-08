@@ -136,3 +136,14 @@ void Entity::SetSprite(sf::Sprite *sprite)
 	*m_Sprite = temp;
 	m_Sprite->setPosition(*m_Position);
 }
+
+void Entity::SetTexture(sf::Texture *texture)
+{
+	if (texture != NULL)
+	{
+		texture->setSmooth(true);
+		m_Sprite->setTexture(*texture);
+		m_Collusion->height = float(texture->getSize().y);
+		m_Collusion->width = float(texture->getSize().x);
+	}
+}

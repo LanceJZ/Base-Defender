@@ -17,7 +17,7 @@ Game::Game(void)
 	srand(unsigned(time(NULL)));
 
 	mWindow = new sf::RenderWindow();
-	mWindow->create(sf::VideoMode(1280, 720), "Base Defender SFML version A00001.20", sf::Style::Close);
+	mWindow->create(sf::VideoMode(1280, 720), "Base Defender SFML version A00001.31", sf::Style::Close);
 	//mWindow->setTitle("Base Defender SFML version A00001.14");
 	mWindow->setKeyRepeatEnabled(false);
 	mWindow->setVerticalSyncEnabled(true);	
@@ -48,7 +48,14 @@ void Game::Initialize(void)
 	mTextures.load(Textures::Overlay, "Media/Textures/Overlay.PNG");
 	mTextures.load(Textures::Radar, "Media/Textures/Radar.PNG");
 	mTextures.load(Textures::City, "Media/Textures/CityNew.PNG");
+	mTextures.load(Textures::CityDamaged1, "Media/Textures/CityDamaged1.PNG");
+	mTextures.load(Textures::CityDamaged2, "Media/Textures/CityDamaged2.PNG");
+	mTextures.load(Textures::CityDamaged3, "Media/Textures/CityDamaged3.PNG");
+	mTextures.load(Textures::CityDamaged4, "Media/Textures/CityDamaged4.PNG");
+	mTextures.load(Textures::CityDistroyed, "Media/Textures/CityDistroyed.PNG");
 	mTextures.load(Textures::CityRadar, "Media/Textures/RadarCityDot.PNG");
+	mTextures.load(Textures::CityRadarAlert, "Media/Textures/RadarCityDotAlert.PNG");
+	mTextures.load(Textures::CityRadarDistroyed, "Media/Textures/RadarCityDotDistroyed.PNG");
 	mTextures.load(Textures::Attacker, "Media/Textures/Attacker.PNG");
 	mTextures.load(Textures::AttackerRadar, "Media/Textures/RadarAttackerDot.PNG");
 	mTextures.load(Textures::AttackerShot, "Media/Textures/AttackerShot.PNG");
@@ -72,7 +79,9 @@ void Game::Initialize(void)
 	pPlayer->Initialize(&mTextures.get(Textures::Player), &mTextures.get(Textures::PlayerRadar), &mTextures.get(Textures::PlayerShot), &mTextures.get(Textures::PlayerThrust),
 		&mTextures.get(Textures::PlayerShieldOver),	&mTextures.get(Textures::PlayerShieldUnder),
 		mWindow->getSize(), mWorldSize);
-	pCities->Initialize(&mTextures.get(Textures::City), &mTextures.get(Textures::CityRadar), mWindow->getSize(), mWorldSize);
+	pCities->Initialize(&mTextures.get(Textures::City), &mTextures.get(Textures::CityDamaged1), &mTextures.get(Textures::CityDamaged2),
+		&mTextures.get(Textures::CityDamaged3), &mTextures.get(Textures::CityDamaged4), &mTextures.get(Textures::CityDistroyed),
+		&mTextures.get(Textures::CityRadar), &mTextures.get(Textures::CityRadarAlert), &mTextures.get(Textures::CityRadarDistroyed), mWindow->getSize(), mWorldSize);
 	pSpawner->PlayerPointer(pPlayer);
 	pSpawner->CityPointer(pCities);
 	pSpawner->InitializeRadar(&mTextures.get(Textures::AttackerRadar), &mTextures.get(Textures::MineLayerRadar), &mTextures.get(Textures::PodRadar), &mTextures.get(Textures::SwarmerRadar));

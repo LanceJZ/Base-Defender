@@ -62,7 +62,8 @@ void Angriff_auf_Stadt::Setup(sf::Vector2f position, sf::Vector2f velocity, int 
 	mBombDropTimer = EnemyTargetedMover::ResetTimer(mBombDropAmount, mBombDropAmount / 2);
 	sf::Vector2f targetCity = sf::Vector2f(pCities->CityCollusion(mBombCityNumber).left,
 		pCities->CityCollusion(mBombCityNumber).top);
-	mBomb->CityInfo(targetCity, pCities->CityCollusion(mBombCityNumber).width);
+	mBomb->CityInfo(targetCity, pCities->CityCollusion(mBombCityNumber).width, cityNumber);
+	mBomb->CityPointer(pCities);
 }
 
 void Angriff_auf_Stadt::PlayerPointer(std::shared_ptr<Player> playerSP)
