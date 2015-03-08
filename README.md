@@ -1,5 +1,5 @@
 # Base-Defender
-Version A00001.1 side scrolling arcade game with castle defence atributes.
+A side scrolling arcade game with castle defence atributes. This is the second version, a remake of the orginal XNA version I made years ago.
 
 A minimal functioning version of the game. Only graphic place holders will be used until all functionality is complete.
 Visual Studio 2013 was used to make this project.
