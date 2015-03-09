@@ -17,7 +17,7 @@ Game::Game(void)
 	srand(unsigned(time(NULL)));
 
 	mWindow = new sf::RenderWindow();
-	mWindow->create(sf::VideoMode(1280, 720), "Base Defender SFML version A00001.31", sf::Style::Close);
+	mWindow->create(sf::VideoMode(1280, 720), "Base Defender SFML version A00001.40", sf::Style::Close);
 	//mWindow->setTitle("Base Defender SFML version A00001.14");
 	mWindow->setKeyRepeatEnabled(false);
 	mWindow->setVerticalSyncEnabled(true);	
@@ -32,7 +32,6 @@ Game::Game(void)
 		return;
 
 	mWindow->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
-	//pPlayer = new Player();
 }
 
 void Game::Initialize(void)
@@ -61,6 +60,8 @@ void Game::Initialize(void)
 	mTextures.load(Textures::AttackerShot, "Media/Textures/AttackerShot.PNG");
 	mTextures.load(Textures::AttackerBomber, "Media/Textures/AttackerBomber.PNG");
 	mTextures.load(Textures::AttackerFC, "Media/Textures/AttackerFC.PNG");
+	mTextures.load(Textures::Berserker, "Media/Textures/Berserker.PNG");
+	mTextures.load(Textures::BerserkerRadar, "Media/Textures/RadarBerserkerDot.PNG");
 	mTextures.load(Textures::MineLayer, "Media/Textures/MineLayer.PNG");
 	mTextures.load(Textures::MineLayerRadar, "Media/Textures/RadarMineLayerDot.PNG");
 	mTextures.load(Textures::Mine, "Media/Textures/Mine.PNG");
@@ -84,11 +85,13 @@ void Game::Initialize(void)
 		&mTextures.get(Textures::CityRadar), &mTextures.get(Textures::CityRadarAlert), &mTextures.get(Textures::CityRadarDistroyed), mWindow->getSize(), mWorldSize);
 	pSpawner->PlayerPointer(pPlayer);
 	pSpawner->CityPointer(pCities);
-	pSpawner->InitializeRadar(&mTextures.get(Textures::AttackerRadar), &mTextures.get(Textures::MineLayerRadar), &mTextures.get(Textures::PodRadar), &mTextures.get(Textures::SwarmerRadar));
-	pSpawner->Initialize(&mTextures.get(Textures::Attacker), &mTextures.get(Textures::AttackerShot), &mTextures.get(Textures::AttackerBomber),
-		&mTextures.get(Textures::AttackerFC), &mTextures.get(Textures::Bomb), &mTextures.get(Textures::BombExplosion), &mTextures.get(Textures::MineLayer),
-		&mTextures.get(Textures::Mine), &mTextures.get(Textures::Pod), &mTextures.get(Textures::Swarmer), &mTextures.get(Textures::EnemyExplosion),
+	pSpawner->InitializeRadar(&mTextures.get(Textures::MineLayerRadar), &mTextures.get(Textures::PodRadar),	&mTextures.get(Textures::SwarmerRadar));
+	pSpawner->InitializeCityEnemyRadar(&mTextures.get(Textures::AttackerRadar), &mTextures.get(Textures::BerserkerRadar));
+	pSpawner->Initialize(&mTextures.get(Textures::MineLayer), &mTextures.get(Textures::Mine), &mTextures.get(Textures::Pod), &mTextures.get(Textures::Swarmer),
+		&mTextures.get(Textures::AttackerShot), &mTextures.get(Textures::EnemyExplosion),
 		mWindow->getSize(), mWorldSize);
+	pSpawner->InitializeCityEnemys(&mTextures.get(Textures::Attacker), &mTextures.get(Textures::AttackerBomber), &mTextures.get(Textures::AttackerFC),
+		&mTextures.get(Textures::Berserker), &mTextures.get(Textures::Bomb), &mTextures.get(Textures::BombExplosion));
 	mPlayerCenterX = mTextures.get(Textures::Player).getSize().x / 2.f;
 	mWorldPlayerXMax = mWorldSize.x * 0.875f;
 	mWorldPlayerXMin = mWindow->getSize().x * 0.5f;

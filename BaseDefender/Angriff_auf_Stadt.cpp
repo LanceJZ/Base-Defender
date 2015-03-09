@@ -77,6 +77,11 @@ void Angriff_auf_Stadt::CityPointer(std::shared_ptr<Cities> citySP)
 	pCities = citySP;
 }
 
+bool Angriff_auf_Stadt::GetCityDistroyed(void)
+{
+	return pCities->GetCityDistroyed(mBombCityNumber);
+}
+
 Angriff_auf_Stadt::Angriff_auf_Stadt(void)
 {
 	mBomb = new EnemyCityBomb();

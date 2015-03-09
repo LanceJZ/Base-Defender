@@ -15,6 +15,7 @@ public:
 	void Draw(sf::RenderWindow *window);
 	void DrawRadar(sf::RenderWindow *window);
 	void BombHitCity(int cityNumber);
+	bool GetCityDistroyed(int cityNumber);
 	sf::FloatRect CityCollusion(int city);
 
 private:

@@ -15,11 +15,12 @@ public:
 	void Draw(sf::RenderWindow *window);
 	void DrawOtherSide(sf::RenderWindow *window);
 	void DrawRadar(sf::RenderWindow *window);
-	void Initialize(sf::Texture *angreiferTexture, sf::Texture *angreiferShotTexture, sf::Texture *stadt_AngreiferTexture,
-		sf::Texture *angreiferTextureFC, sf::Texture *bombTexture, sf::Texture *bombExplosion, sf::Texture *minenlegerTexture,
-		sf::Texture *mineTexture, sf::Texture *unterTexture, sf::Texture *schwärmeTexture, sf::Texture *enemyExplosion,
+	void Initialize(sf::Texture *minenlegerTexture,	sf::Texture *mineTexture, sf::Texture *unterTexture, sf::Texture *schwärmeTexture, sf::Texture *shotTexture, sf::Texture *enemyExplosion,
 		sf::Vector2u windowSize, sf::Vector2f worldBounds);
-	void InitializeRadar(sf::Texture *angreiferRadarTexture, sf::Texture *minenlegerRadarTexture, sf::Texture *unterRadarTexture, sf::Texture *schwärmeRadarTexture);
+	void InitializeCityEnemys(sf::Texture *angreiferTexture, sf::Texture *stadt_AngreiferTexture, sf::Texture *angreiferTextureFC,
+		sf::Texture *jägerTexture, sf::Texture *bombTexture, sf::Texture *bombExplosion);
+	void InitializeRadar(sf::Texture *minenlegerRadarTexture, sf::Texture *unterRadarTexture, sf::Texture *schwärmeRadarTexture);
+	void InitializeCityEnemyRadar(sf::Texture *angreiferRadarTexture, sf::Texture *jägerRadarTexture);
 	void PlayerPointer(std::shared_ptr<Player> playerSP);
 	void CityPointer(std::shared_ptr<Cities> citySP);
 
@@ -35,7 +36,7 @@ private:
 	sf::Texture *mUnterRadarTexture;
 	sf::Texture *mSchwärmeTexture;
 	sf::Texture *mSchwärmeRadarTexture;
-	sf::Texture *mAngreiferShotTexture;
+	sf::Texture *mShotTexture;
 	sf::Texture *mEnemyExplosion;
 
 	std::vector<std::unique_ptr<Minenleger>> mMinenlegers;

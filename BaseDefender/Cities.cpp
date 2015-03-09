@@ -46,6 +46,11 @@ void Cities::BombHitCity(int cityNumber)
 	mCities[cityNumber].HitByBomb();
 }
 
+bool Cities::GetCityDistroyed(int cityNumber)
+{
+	return mCities[cityNumber].GetDistroyed();
+}
+
 sf::FloatRect Cities::CityCollusion(int city)
 {
 	return *mCities[city].GetCollision();

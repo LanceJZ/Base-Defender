@@ -85,6 +85,11 @@ void City::HitByBomb(void)
 	}
 }
 
+bool City::GetDistroyed(void)
+{
+	return mDistroyed;
+}
+
 City::City(void)
 {
 	mRadar = new sf::Sprite();

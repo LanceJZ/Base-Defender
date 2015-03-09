@@ -31,6 +31,7 @@ public:
 	void DrawRadar(sf::RenderWindow *window);
 	void HitByBomb(void);
 	void Alert(void);
+	bool GetDistroyed(void);
 
 private:
 	sf::Sprite *mRadar;

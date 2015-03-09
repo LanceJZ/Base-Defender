@@ -19,6 +19,7 @@ public:
 	void Setup(sf::Vector2f position, sf::Vector2f velocity, int cityNumber, sf::Vector2f cityPosition);
 	void PlayerPointer(std::shared_ptr<Player> playerSP);
 	void CityPointer(std::shared_ptr<Cities> citySP);
+	bool GetCityDistroyed(void);
 
 private:
 	std::shared_ptr<Cities> pCities;

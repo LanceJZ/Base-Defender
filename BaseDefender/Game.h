@@ -44,6 +44,8 @@ namespace Textures
 		AttackerShot,
 		AttackerBomber,
 		AttackerFC,
+		Berserker,
+		BerserkerRadar,
 		MineLayer,
 		MineLayerRadar,
 		Mine,

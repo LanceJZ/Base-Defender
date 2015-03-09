@@ -2,7 +2,7 @@
 
 void Schwärme::Update(sf::Time *delta)
 {
-	EnemyTargetedMover::Update(delta);	
+	EnemyTargetedMover::Update(delta);
 	EnemyRandomShooter::Update(delta, EnemyTargetedMover::GetPosition());
 	EnemyRandomShooter::SetActive(m_Active);
 
