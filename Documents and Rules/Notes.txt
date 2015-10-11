@@ -1,0 +1,26 @@
+From Original XNA Game.
+I've added the workings of the shield and armor modifier. My Task list vanished, so I added a TODO list text file. Though I'm going to use
+comment // TODO: in my code, as it shows up in the task comments list. I think you can add words to its watch list.
+Added in BaseRepair.
+Added base shield, using a very temp texture. Added sprite list for shield, made it invisible, added it to the destroy method.
+Added base shield damage, and base wont take damage if it has shields. Added method to add shields to base.
+I could add graphics for when an Attacker attacks a base.
+Added Drone, Drone targeting system, and fire solution. Found function on the web to use for getting angle to fire. It took me all day to get
+ that worked out (6 hours).
+I may add experience points for evading Falcon Missiles.
+On Base Target, have it set a random angle until it reaches its bounds, then set another random angle.
+By wave 6, one should have about 1000 Exp if they are doing well. At this time the game gets pretty hard. By wave 5 it gets difficult.
+I will have drone become available at Level 2, at 500 exp, for 500 credits.
+Every boss ship will have one unique weapon type.
+
+Game Normal Default Settings.
+Attacker: HP 10, FireRate 10, MoveRate 30, MoveSpeed 60, Attack Delay 30
+Fighter: HP 40, FireRate 5, MoveRate 5, MoveSpeed 200, HuntRate 4
+Bomber: HP 50, FireRate 20, MoveSpeed 50
+Falken: HP 60, FireRate 6, MoveRate 3, HuntRate 2, MoveSpeed 300, MissileMoveSpeed 600 (Name from Wargames movie, the guy who wrote the code for
+the Wargame computer.)
+Carrier: MoveRate 45, MoveSpeed 40
+Seaker: FireRate 4, MoveRate 2, HuntRate 2, MoveSpeed 300
+
+Make new enemy like Agis Wing enemy that turns into a kamakazy ship if the player gets near it. Could just make Seeker behave like that.
+Make it a Kamikaze ship!

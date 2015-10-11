@@ -2,14 +2,19 @@
 #include <stdexcept>
 #include <iostream>
 
-std::unique_ptr<Game> pGame(new Game());
+//std::unique_ptr<Game> pGame(new Game());
 
 int main()
 {
+	Game *pGame = new Game();
+
 	try
 	{
 		pGame->Initialize();
+		
 		pGame->Run();
+
+		return EXIT_SUCCESS;
 	}
 
 	catch (std::exception& Except)

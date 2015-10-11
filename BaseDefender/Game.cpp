@@ -9,23 +9,27 @@ std::unique_ptr<Overlay> pOverlay(new Overlay);
 std::unique_ptr<Radar> pRadar(new Radar);
 std::unique_ptr<EnemySpawner> pSpawner(new EnemySpawner);
 
-std::shared_ptr<sf::RenderTexture> pRadarTexure(new sf::RenderTexture);
+//std::shared_ptr<sf::RenderTexture> pRadarTexure(new sf::RenderTexture); //TODO: What is this even for?
 
 Game::Game(void)
 {
 	/* initialize random seed: */
 	srand(unsigned(time(NULL)));
 
+	const unsigned int gameWidth = 1280;
+	const unsigned int gameHeight = 720;
+	const std::string gameTitle = "Base Defender using SFML 2.3.2 - game version A01.40";
+
 	mWindow = new sf::RenderWindow();
-	mWindow->create(sf::VideoMode(1280, 720), "Base Defender SFML version A00001.40", sf::Style::Close);
-	//mWindow->setTitle("Base Defender SFML version A00001.14");
+	mWindow->create(sf::VideoMode(gameWidth, gameHeight, 32), gameTitle, sf::Style::Titlebar | sf::Style::Close);
+
 	mWindow->setKeyRepeatEnabled(false);
 	mWindow->setVerticalSyncEnabled(true);	
 	mWorldView = new sf::View(mWindow->getDefaultView());
 	mWorldOthersideView = new sf::View(mWindow->getDefaultView());
 	mWorldSize = sf::Vector2f(1280.0f *4.0f, 600.0f);
-	pRadarTexure->create(int(mWorldSize.x), int (mWorldSize.y));
-	pRadarTexure->setSmooth(true);
+	//pRadarTexure->create(int(mWorldSize.x), int (mWorldSize.y));
+	//pRadarTexure->setSmooth(true);
 
 	sf::Image icon;
 	if (!icon.loadFromFile("Media/Textures/icon.PNG"))
@@ -77,18 +81,19 @@ void Game::Initialize(void)
 	pRadar->Initialize(&mTextures.get(Textures::Radar), mWindow->getSize());
 	pBackground->InitializeLine(&mTextures.get(Textures::BackgroundLine));
 	pOverlay->Initialize(&mTextures.get(Textures::Overlay));
-	pPlayer->Initialize(&mTextures.get(Textures::Player), &mTextures.get(Textures::PlayerRadar), &mTextures.get(Textures::PlayerShot), &mTextures.get(Textures::PlayerThrust),
-		&mTextures.get(Textures::PlayerShieldOver),	&mTextures.get(Textures::PlayerShieldUnder),
+	pPlayer->Initialize(&mTextures.get(Textures::Player), &mTextures.get(Textures::PlayerRadar), &mTextures.get(Textures::PlayerShot),
+		&mTextures.get(Textures::PlayerThrust),	&mTextures.get(Textures::PlayerShieldOver),	&mTextures.get(Textures::PlayerShieldUnder),
 		mWindow->getSize(), mWorldSize);
 	pCities->Initialize(&mTextures.get(Textures::City), &mTextures.get(Textures::CityDamaged1), &mTextures.get(Textures::CityDamaged2),
 		&mTextures.get(Textures::CityDamaged3), &mTextures.get(Textures::CityDamaged4), &mTextures.get(Textures::CityDistroyed),
-		&mTextures.get(Textures::CityRadar), &mTextures.get(Textures::CityRadarAlert), &mTextures.get(Textures::CityRadarDistroyed), mWindow->getSize(), mWorldSize);
+		&mTextures.get(Textures::CityRadar), &mTextures.get(Textures::CityRadarAlert), &mTextures.get(Textures::CityRadarDistroyed),
+		mWindow->getSize(), mWorldSize);
 	pSpawner->PlayerPointer(pPlayer);
 	pSpawner->CityPointer(pCities);
 	pSpawner->InitializeRadar(&mTextures.get(Textures::MineLayerRadar), &mTextures.get(Textures::PodRadar),	&mTextures.get(Textures::SwarmerRadar));
 	pSpawner->InitializeCityEnemyRadar(&mTextures.get(Textures::AttackerRadar), &mTextures.get(Textures::BerserkerRadar));
-	pSpawner->Initialize(&mTextures.get(Textures::MineLayer), &mTextures.get(Textures::Mine), &mTextures.get(Textures::Pod), &mTextures.get(Textures::Swarmer),
-		&mTextures.get(Textures::AttackerShot), &mTextures.get(Textures::EnemyExplosion),
+	pSpawner->Initialize(&mTextures.get(Textures::MineLayer), &mTextures.get(Textures::Mine), &mTextures.get(Textures::Pod),
+		&mTextures.get(Textures::Swarmer), &mTextures.get(Textures::AttackerShot), &mTextures.get(Textures::EnemyExplosion),
 		mWindow->getSize(), mWorldSize);
 	pSpawner->InitializeCityEnemys(&mTextures.get(Textures::Attacker), &mTextures.get(Textures::AttackerBomber), &mTextures.get(Textures::AttackerFC),
 		&mTextures.get(Textures::Berserker), &mTextures.get(Textures::Bomb), &mTextures.get(Textures::BombExplosion));
@@ -100,7 +105,6 @@ void Game::Initialize(void)
 void Game::Run(void)
 {
 	sf::Clock *clock = new sf::Clock;
-	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 	sf::Event *events = new sf::Event;
 
 	while (mWindow->isOpen())
@@ -118,7 +122,6 @@ void Game::Run(void)
 
 		Update(&clock->restart());
 		Draw();
-		timeSinceLastUpdate = sf::Time::Zero;
 	}
 }
 

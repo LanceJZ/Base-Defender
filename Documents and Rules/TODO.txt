@@ -1,0 +1,170 @@
+Original TODO list from XNA version.
+Make Parallax Background
+Make a mushroom cloud animation for when Attacker cycles its base attack.
+Player Upgrades: Drone ship for player. 
+When Drone target collides have the drone head that way as well. (May implement this as an upgrade) 
+New Alien: For wave 10, detects player with wide collision box that runs top to bottom, shoots a beam that is as goes from it to top and bottom
+screen. Beam lasts one second does 1 damage per frame. Alien ship movement a mix of bomber and attacker. Moves in one direction for a random
+amount of time.
+Make it so angle function does it in radians, so there will be less math involved. (Resolved)
+Have the Raptor check for the player before it spawns.
+Fixed bug in end of wave check, took out > 0 shields for player. That was left over from last version. That made it so if you killed all the
+aliens and you were at 0 shields yet still had armor, game would not progress.
+Created Alien class, AlienHunter class, AlienBomber class and Shared Functions class. All classes now use these derived classes so there are no
+duplicate code, functions, anywhere on aliens. Still need to figure out if I need that for Player classes... Player classes do use the derived
+Shared Functions class.
+
+Fix: If smart bomb is used on edge of screen, it does not carry over the edge. (done)
+
+Clean all the alien classes, use code from UFO in Asteroids. Start with Attacker. (done)
+-Change how an attacker finds a base. (Done) Moved to GameScreen using collisions.
+-Change how an attacker fires, use timer. (completed)
+-Change how ship moves, use timer instead. (completed)
+-Make what you can more efficient. (completed) Made one for loop for all the ships, and that calls all five functions. Four less for loops.
+-Work on Fighter next, make same changes as was done for Attacker. (completed)
+-Work on Raptor as did to Fighter. (completed)
+-Work on Bomber as did to Attacker. (completed)
+-Work on Carrier as did Attacker. (completed)
+-Work on Seeker as did Attacker. (completed) Fires too often! (Fixed) Had timer start dividing front fist wave instead of 3rd wave.
+-Work on Falcon as did Raptor. (completed) Changed how missiles fire, and target. Still needs some fine tuning.
+
+- Make UI. (Done) - To be upgraded in Beta version later.
+- Add buy buttons for Smart Bombs, and Ship armor. (completed)
+-Fix Player Drone. If you get near edge of screen, Drone will go to return to you the long way around. (done)
+-Fix Drone Target, now is attached to Drone, and uses relative movement. (completed)
+Removed save/load data for fire rates, not needed anymore. Use new method, figured out on spawn. (Don't understand what I meant when I wrote this note....)
+-Fix smart bomb, on edge of world, does not go past edge of world. Make smart bomb collision box, with edge copy, and use that instead. (done)
+
+--------
+-Make the rest of the aliens that fire use timer like Attacker fire rate. (Completed)
+
+--------
+For game difficulty switching.
+
+Use a GameStart XML file that has the difficulty settings in it, that is loaded at the end of the game start screen. Also save what difficulty that is,
+so that the default choice is loaded on a new game when the timer runs out. (Completed) Replaces Autosave.XML with difficulty selected.
+Have new game choice at end game load the game start screen, so they can choice a different difficulty.
+-Add the additional data needed to create game difficulties for future needs. (Completed)
+-Remove NewGame method from Global Data. Will be replaced by GameStart files. Basically a read only autosave file with a few changes. (Completed)
+Change the settings in the aliens to use the new difficulty variables in GlobalData. (done)
+
+On the Start Screen, add instructions on key usage. (Done)
+
+-----------
+TODO: Change all alien bullet collusions, don't add them into one list anymore. That is costly CPU time! Separate them! All bullet collusions
+		are no longer working. (Done)
+		
+		Put all the data into Hard.XML for hard difficulty game. (done)
+		Change RapterShip.cs to use new data. (done)
+		Change how the Raptor Timer updates for each wave. So that on easy it does not go so small so fast. (done)
+		Change fire rate per wave change, move it to the initialize function, and make it like the one in Seeker. (done)
+		
+		Add wave alien starts into XML files. Create the new alien for Wave 8 (normal) that is like a carrier, but shoots missiles. It spawns two Seekers
+		when shot, though moves slow like carrier even though its smaller. Looks like smaller carrier with wings with missiles. Add new alien for wave 10
+		(normal) that is a boss, every 10 waves. It is huge, and shows up when less then 4 attackers are left, and no other aliens. It shoots a wide 'laser'
+		every 2-10 seconds (normal) all the way from top to bottom of screen. It should have about 100 HP. It moves very slowly, and shoots shots, launch
+		Seekers, and long range missiles as well. The missiles shoot about every 10 seconds (normal) shoots about every second (normal) even if player is
+		not on same screen space. A Seeker should launch every 10 to 30 seconds. Raptor will be disabled as well for the Boss.
+		For wave 12 (normal) another new alien, one that is like the wave 8 one, but also shoots shots. For Wave 14 another new alien that is like the last
+		one, but also lays bomb mines. Add another new alien that drops seeker mines, that if you get close chase you to explode. Have these new ones use aimed
+		shoots as well.
+		
+		Use documents user folder to save files Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+		When add resizing, to make it dynamic use this.Window.AllowUserResizing = true; FRB will resize the textures for you, making them larger.
+		
+		Add collision detection for player edge. So player can be hit on other side of world. (done)
+		
+		Explosions for edge of world. (Save for last, as it is only visual.)
+		 
+		Add new alien, Carrier Mark II, like carrier but shoots at player, aimed shots. When hit releases two Seekers by default. Add to GameData. (Done)
+		
+		Put all repeated code into Alien non-hunting class, Alien hunter type class. That way I'll be using encapsulation and be a better coder. (Done)
+		
+		Merge the AlienBomb class into Alien class, they can both use the same fire code. Just add if shoot moves bool. Make it so the outside class
+		calls it, so it can fire more then one type at a time, protected. (Done)
+		
+		Use a static class to create classes statically that way the ram gets used differently, it is put in a faster area.
+		Change the GameScreen loops, they can be condensed! Most of them have the same loop twice, or more! (Completed)
+		
+		!!! Current //TODO: create AI for mini boss.
+		
+-------------
+
+For game features. Mini boss at end of each wave, when defeated player receives temp bonus such as guided missiles regenerating shields, auto laser turret etc.
+When the 5th wave major boss is defeated player receives an upgrade that they keep until death, such as auto laser turret, same as temp, only temp ones are
+top level. The mini boss will be timer based, depending on level of difficulty.
+After the 5th wave, the temp upgrade at the the player wins for defeating the wave boss would be something other then the one they receive.
+The wave boss would be random, and the temp upgrade would be from the boss. As the boss would be using an auto laser to shoot you, you would then get that
+auto laser as your temp upgrade. The player wears it out after taking it from the boss. Every 5 waves, the player earns an upgrade like regenerating shields, auto
+laser turret etc. Move the drone to the boss upgrades as well. The bosses will be alien heroes, such as the player is the hero for the colonies.
+Proximity shield mini boss, when player is close, shield turns on, and is unbreakable. When you defeat them and retrieve the shield, when aliens get close
+the shield turns on, after the time expires, you lose it.
+
+---------------
+Upgrades: 
+* Guided Missile - Uses target ridicule that stays in front of player's ship. You use Alternate Weapon button to launch missile at spot marked by ridicule.
+    Makes an explosion area that anything touches takes damage. Missile does not explode when it hits an alien, instead it explodes
+	when it reaches its target. (Like Missile Command missile.) Player runs out of missiles, option to buy more.
+* Heat Seeking Missile - Finds nearest alien and goes after it. (Use collision triangle attached to front nose of missile to go after random alien.
+	Should have it level out and search for new alien if the target gets destroyed until its fuel runs out.)
+* Auto Aiming laser beam turret - Ring that attaches to player ship and shoots at first ship it finds. Laser stops when it runs out of power.
+ (Use collision circle around ship to target random alien.) Option to buy batteries to recharge it.
+* Shield Recharge Capacitor - Shield percent increases slowly over time, such as 10% every 10 seconds. Charge rate increases as level does.
+* Range detection energy redirection shield - When alien is in range, shield activates and redirects shoots in random direction. (Use collision circle to detect
+	aliens.)
+* Power Shield - Lasts for 10 to 30 seconds, depending on game difficulty. Invulnerable shield during that time.
+
+
+-------------
+Bugs
+
+Visual:
+Shielded base 1, and 4, when appearing on left side of screen the shield is faded out. It has to do with the camera switch over on the edge of the world.
+
+Audio/Visual:
+Base attack alarm sounded and indicator was lit red even though Bomber Attacker was destroyed that was attacking that base and no attacker was bombing at
+that base. After another attacker bomber was bombing that base, and that one was destroyed, the alarm then got cleared.
+
+-------------
+Game Code Redesign: Urgent!
+
+Make an enemy manager class that instances or creates all the enemies, and you pass the player collision to that for all collision detection, this is
+for both clean up, and better performance. Use a reference in the manager of the player to access its data. As well as the city's for the
+Attacker. I'll need to make all the collision lists inside the manager class for the enemies, instead of using properties to pass it from
+class to class. This will increase performance many fold. This will install a complete redesign of the game screen. I hope I can think of a way
+to do this without adding the entire game class to the new enemy manager class. See the code examples in Chrome/Dev/C# that Xian made me.
+
+Make Player X and Y a public static property in the GameScreen class. This way all the enemies that need access to it can read it without using
+methods or properties.
+
+Make the city bases four instances as an array, that way each instance will keep track of itself, inside the playerbase class.
+Make a new City Base class to instance them into.
+
+Convert base alien class into one alien, take out lists. Use object list in other classes to create aliens. See Space Invaders for
+help.
+Creating new CityBaseGroup class, and CityBase class. CityBaseGroup will have static properties! It will instance and contain the CityBase class
+as a static list/array. *Done*
+-----------------------------------------------------------------------------------------------------------------------
+++++++++++++++++++++++++++++____________________+++++++++++++++++++++++++__________________ 
+Important! Do the following next on the todo list!
+Make Player, Drone, and Base object List/array properties static for X, Y, and Collision properties.
+In doing so will make all those properties visible to all the other classes, so they can check for collision themselves!
+The GameScreen is a total mess! Make an Alien Manager class that does all there collision dection, and instances all the aliens.
+Only the Boss will be instanced inside the GameScreen, it will also have static properties just as the Player class will/does.
+Move all functions inside all classes that are affected by that function. Such as AlienVsPlayer should be inside that alien class!
+This will totally modularize this game, and have an massive increase in performance!
+
+******************************************************************************************************
+************************************ Currently working on.. ******************************************
+Make all entities use a kind of factory. They only get destroyed at the end of the wave. Use Activate/Deactivate for all, and there shots.
+Currently working on Falken enemy class, missile methods.
+Need to do the Smart Bomb for the player, read //TODO: in Player class.
+
+Fix the auto save file, as it is now, it saves everything into a file, including data that can be stored differently.
+1. The auto save only needs the data that changes, such as player health, how many enemies, game difficulty, and such.
+2. Load up the game difficulty for enemies, as an instanced class. Refer to it as needed during game play at the start of each wave.
+3. Separate all the XML files, into folders. Move the auto save into My Documents, to make it safe for installing into Programs.
+4. Use template XML files for difficulty settings, using the what I just learned about using XML in the content pipeline.
+5. Create a difficulty level editor, so I can easily create and tweek game settings using a windows form.
+	This will also make it much easier to add new features and parts to the game.
+I'm using a separate test project to see how all this will work. That way I can implement it with no worries.

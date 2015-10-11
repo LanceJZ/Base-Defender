@@ -10,9 +10,8 @@
 
 #include "EnemySpawner.h"
 
-#include <SFML/System/Time.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/System/Time.hpp>
 
 #include <memory>
 

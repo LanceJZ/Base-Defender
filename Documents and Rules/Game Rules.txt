@@ -1,0 +1,21 @@
+﻿The bases supply the player with power to recharge the player shield. When all bases are destroyed the shields no longer recharged from the bases.
+You gain experience as you shoot aliens. You gain credits at the end of each wave as payment for your services from the bases. Each base pays you depending
+on how well you did and by how much damage each base has.
+You can use credits to buy upgrades, and to repair the bases. You raise in level as you gain experience points. You only get experience from the aliens
+you or the drone shoot. If they are destroyed in any other way, then you don't get any for it, IE: smart bomb, or hit by your ship.
+The ship recharge rate is at the end of the wave, the base damage is subtracted from half the difference of your current shield strength and the base damage.
+The only way to get credits after all your bases are destroyed is if an alien drops some when its destroyed. Only on normal and easy difficulty, only for
+Attacker and Fighter.
+Attackers are one shot to kill, Fighters two, Raptors one, Bombers three, Seekers one, Carriers two, Falcons four. (This is on normal, at the beginning
+it changes as the waves get higher.
+As your level increases so does your end of wave recharge rate.
+
+Power ups you can pick up: Faster shots, Drone, Better manoeuvring, Super bombs, and credits. More as I think of them.
+
+Player default damage per shot = 10 by default.
+
+After playing Heavy Armor, I thought that was a concept used in later 80s arcade games, such as Spy Hunter, to use a support unit that pops in at random times,
+more often on easy, to give the player an upgrade, or item. Have it in world a set time, longer on easy, and the player needs to get the upgrade/item before
+the support ship leaves. Have the support ship wait until the number of aliens on screen is low, lower on easy, before it can pop in, if it pops in. Have the
+support ship find a clear area to pop in at. Have a shield around the support ship that also protects the player when it docks with it. After dock, have the support
+ship search for a clear area to undock the player. Have the support ship enter the world from the top of screen, and leave from top of screen.
